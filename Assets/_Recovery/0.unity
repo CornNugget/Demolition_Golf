@@ -1196,7 +1196,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 291f5628b404b2c4ca142a1cf355847e, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1234,8 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cf4c75add99e440a298c7dd8d9360c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController2D1
-  speed: 0
-  speedScale: 50
+  speed: 5
   slowdown: 0.99
   canMoveDiagonally: 1
   moveAction: {fileID: 3001919216989983466, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
