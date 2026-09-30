@@ -1262,7 +1262,7 @@ Transform:
   m_GameObject: {fileID: 1245489914}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.23, y: 0.07, z: 0}
+  m_LocalPosition: {x: -7.23, y: 0.07, z: -1}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1347,6 +1347,7 @@ MonoBehaviour:
   speedScale: 70
   moveAction: {fileID: 3001919216989983466, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   aiming: 0
+  wait: 0
   powered: 0
 --- !u!1001 &1374558644
 PrefabInstance:

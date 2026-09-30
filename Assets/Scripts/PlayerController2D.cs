@@ -19,13 +19,14 @@ public class PlayerController2D : MonoBehaviour
     private Vector2 movement; // Stores the direction of player movement
     //private bool isMovingHorizontally = true; // Flag to track if the player is moving horizontally
     public bool aiming = false;
-    private bool wait = false;
+    public bool wait = false;
     private Camera cam;
 
     public bool powered = false;
     private GameObject arrow;
 
 
+  
     private void OnMouseDown()
     {
         //if the ball is clicked when not in aiming mode, stop the ball and enter aiming mode
@@ -73,6 +74,7 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
+
         // don't detect mouse presses until the mouse is released after the ball is clicked
         if (aiming && !wait)
         {
