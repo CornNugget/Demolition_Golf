@@ -58,6 +58,7 @@ public class PlayerController2D : MonoBehaviour
             rb.linearVelocity = movement * speed;
             wait = true;
             aiming = !aiming;
+            GetComponent<Renderer>().material.color = Color.white;
         }
         else
         {
@@ -99,6 +100,7 @@ public class PlayerController2D : MonoBehaviour
 
     void Update()
     {
+        
         if (aiming)
         {
             //copied and edited from from unity documentation
@@ -114,6 +116,7 @@ public class PlayerController2D : MonoBehaviour
                     speed = relativePos.magnitude * speedScale;
                     movement = relativePos.normalized;
                     powered = true;
+                    GetComponent<Renderer>().material.color = Color.yellow;
 
                     rb.AddForce(relativePos * speedScale);
                 }

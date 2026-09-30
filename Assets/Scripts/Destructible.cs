@@ -14,7 +14,8 @@ public class Destructible : MonoBehaviour
             if (other.GetComponent<PlayerController2D>().powered)
             {
                 other.GetComponent<PlayerController2D>().powered = false;
-                
+                other.GetComponent<Renderer>().material.color = Color.white;
+
                 // Destroy the destructible
                 Destroy(gameObject,.1f);
             }
