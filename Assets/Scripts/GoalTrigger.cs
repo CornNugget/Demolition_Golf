@@ -9,7 +9,6 @@ public class GoalTrigger : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Goal entered" + collision.tag);
         if(levelComplete) return;
         if(!collision.CompareTag("Player")) return;
         levelComplete = true;
