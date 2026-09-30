@@ -23,6 +23,7 @@ public class PlayerController2D : MonoBehaviour
     private Camera cam;
 
     public bool powered = false;
+    private GameObject arrow;
 
     //private void OnCollisionEnter2D(Collision2D collision)
     //{
@@ -59,6 +60,7 @@ public class PlayerController2D : MonoBehaviour
             wait = true;
             aiming = !aiming;
             GetComponent<Renderer>().material.color = Color.white;
+            arrow.SetActive(true);
         }
         else
         {
@@ -76,6 +78,7 @@ public class PlayerController2D : MonoBehaviour
 
             //}
             aiming = !aiming;
+            arrow.SetActive(false);
         }
         
     }
@@ -96,6 +99,8 @@ public class PlayerController2D : MonoBehaviour
         // Prevent the player from rotating
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         cam = Camera.main;
+        arrow = GameObject.FindWithTag("Arrow");
+        arrow.SetActive(false);
     }
 
     void Update()
@@ -109,6 +114,7 @@ public class PlayerController2D : MonoBehaviour
                 Vector3 mousePos = Input.mousePosition;
                 Vector3 mousePoint = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
                 Vector3 relativePos = mousePoint - transform.position;
+                relativePos.z = 0;
 
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -119,6 +125,7 @@ public class PlayerController2D : MonoBehaviour
                     GetComponent<Renderer>().material.color = Color.yellow;
 
                     rb.AddForce(relativePos * speedScale);
+                    arrow.SetActive(false);
                 }
             }
 
