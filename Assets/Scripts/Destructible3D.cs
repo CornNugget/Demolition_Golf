@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Destructible3D : MonoBehaviour
@@ -10,37 +11,19 @@ public class Destructible3D : MonoBehaviour
         // Check if the other object has a PlayerController2D component
         if (other.GetComponent<PlayerController>() != null)
         {
-            Destroy(gameObject, .1f);
-            //if (other.GetComponent<PlayerController>().powered)
-            //{
-            //    other.GetComponent<PlayerController>().powered = false;
-            //    other.GetComponent<Renderer>().material.color = Color.white;
-
-            //    // Destroy the destructible
-            //    Destroy(gameObject, .1f);
-            //}
-            // Instantiate the particle effect
-            //Instantiate(onCollectEffect, transform.position, transform.rotation);
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Collider2D other = collision.collider;
-        // Check if the other object has a PlayerController2D component
-        if (other.GetComponent<PlayerController2D>() != null)
-        {
-            if (other.GetComponent<PlayerController2D>().powered)
+            //Destroy(gameObject, .1f);
+            if (other.GetComponent<PlayerController>().powered)
             {
-                other.GetComponent<PlayerController2D>().powered = false;
-                other.GetComponent<Renderer>().material.color = Color.white;
+                other.GetComponent<PlayerController>().powered = false;
+                //other.GetComponent<Renderer>().material.color = Color.white;
+                //other.GetComponent<Material>().color = Color.white;
+                other.GetComponentInChildren<Renderer>().material.color = Color.white;
 
                 // Destroy the destructible
-                Destroy(gameObject,.1f);
+                Destroy(gameObject, .1f);
             }
             // Instantiate the particle effect
             //Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
-
-
     }
 }
