@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody rb;
 
+    public bool powered = true;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        powered = true;
         Vector2 moveInput = Vector2.zero;
 
         // Forward/backward
