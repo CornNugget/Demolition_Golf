@@ -65,12 +65,16 @@ public class Destructible3D : MonoBehaviour
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
 
         health -= ball.Damage;
-
+        Collider other = collision.collider;
+        other.GetComponent<PlayerController>().powered = false;
         if (health <= 0)
         {
             isDestroyed = true;
             // Destroy the destructible
             Destroy(gameObject, .1f);
+            
+            // Instantiate the particle effect
+            //Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
     }
 }
