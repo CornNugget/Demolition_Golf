@@ -624,11 +624,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a123311eea06945a99b904c52d3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 5
-  rotationSpeed: 120
-  jumpForce: 5
+  shootForce: 20
   mouseSensitivityX: 300
   mouseSensitivityY: 50
+  aiming: 0
+  wait: 0
   powered: 1
 --- !u!54 &418818270
 Rigidbody:
