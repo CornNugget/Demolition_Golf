@@ -38,6 +38,7 @@ public class BallMaterialController : MonoBehaviour
     [SerializeField] private int diamondDamage = 10;
 
     public BallMaterialType currentMaterial = BallMaterialType.Regular;
+    public Vector3 LastVelocity { get; private set; } //used to record ball velocity before collision with a destructible object
     private PlayerController player;
     private Rigidbody rb;
 
@@ -63,6 +64,11 @@ public class BallMaterialController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         ApplyBallType();
+    }
+
+        private void FixedUpdate()
+    {
+        LastVelocity = rb.linearVelocity;
     }
 
     private void Update()
