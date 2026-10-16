@@ -184,7 +184,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9452ae1262a74094f8a68013fbcd1834, type: 2}
+  - {fileID: 2100000, guid: a815bb2f174f4d5409431e7687be0bea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 418818270}
   - component: {fileID: 418818269}
   - component: {fileID: 418818272}
+  - component: {fileID: 418818273}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -624,9 +625,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a123311eea06945a99b904c52d3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 5
-  rotationSpeed: 120
-  jumpForce: 5
+  shootForce: 5
+  mouseSensitivityX: 200
+  mouseSensitivityY: 50
+  aiming: 0
+  wait: 0
+  powered: 1
 --- !u!54 &418818270
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -652,7 +656,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!4 &418818271
 Transform:
@@ -692,6 +696,35 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &418818273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418818268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3ab64522d14cd681c98c93d05371e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BallMaterialController
+  ballRenderer: {fileID: 25421820}
+  regularMaterial: {fileID: 2100000, guid: a815bb2f174f4d5409431e7687be0bea, type: 2}
+  stoneMaterial: {fileID: 2100000, guid: 4e2ad6800e8ab5b48a86c40b7105e81a, type: 2}
+  diamondMaterial: {fileID: 2100000, guid: fb6e35ef81b284b4ebcb6d67da4a98fc, type: 2}
+  regularMass: 1
+  stoneMass: 3
+  diamondMass: 5
+  regularSpeed: 5
+  stoneSpeed: 4
+  diamondSpeed: 3.5
+  regularJump: 20
+  stoneJump: 15
+  diamondJump: 10
+  regularDamage: 1
+  stoneDamage: 3
+  diamondDamage: 10
+  currentMaterial: 0
 --- !u!1001 &500858338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -752,6 +785,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1451718885182407179, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
     - target: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: m_Name
       value: Destructible Wall (3)
@@ -999,6 +1036,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1451718885182407179, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
     - target: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: m_Name
       value: Destructible Wall (1)
@@ -1774,7 +1815,7 @@ Transform:
   m_GameObject: {fileID: 1333918185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.2, z: -0.727}
+  m_LocalPosition: {x: 0, y: 0.7, z: -1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2259,6 +2300,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1451718885182407179, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
     - target: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: m_Name
       value: Destructible Wall (2)
@@ -2636,9 +2681,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1451718885182407179, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
     - target: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: m_Name
       value: Destructible Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: obstacleType
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

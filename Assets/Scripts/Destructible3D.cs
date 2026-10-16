@@ -1,27 +1,81 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ObstacleMaterialType
+{
+    Glass,
+    Wood,
+    Steel,
+}
+
 public class Destructible3D : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     //public GameObject onCollectEffect;
+
+    [SerializeField] private ObstacleMaterialType obstacleType;
+    [SerializeField] private Renderer obstacleRenderer;
+
+    [Header("Materials")]
+    [SerializeField] private Material glassMaterial;
+    [SerializeField] private Material woodMaterial;
+    [SerializeField] private Material steelMaterial;
+
+    [Header("Health")]
+    [SerializeField] private int glassHealth = 1;
+    [SerializeField] private int woodHealth = 3;
+    [SerializeField] private int steelHealth = 15;
+    private int health;
+    private bool isDestroyed = false;
+
+    private void Awake()
+    {
+        obstacleRenderer = GetComponentInChildren<Renderer>();
+        ApplyObstacleType();
+    }
+
+    private void ApplyObstacleType()
+    {
+        switch (obstacleType)
+        {
+            case ObstacleMaterialType.Wood:
+                health = woodHealth;
+                obstacleRenderer.sharedMaterial = woodMaterial;
+                break;
+
+            case ObstacleMaterialType.Steel:
+                health = steelHealth;
+                obstacleRenderer.sharedMaterial = steelMaterial;
+                break;
+
+            default:
+                health = glassHealth;
+                obstacleRenderer.sharedMaterial = glassMaterial;
+                break;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (isDestroyed) return;
+
+        BallMaterialController ball = collision.collider.GetComponentInParent<BallMaterialController>();
+
+        if (ball == null) return;
+        if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
+
+        health -= ball.Damage;
         Collider other = collision.collider;
-        // Check if the other object has a PlayerController2D component
         if (other.GetComponent<PlayerController>() != null)
         {
-            //Destroy(gameObject, .1f);
-            if (other.GetComponent<PlayerController>().powered)
-            {
-                other.GetComponent<PlayerController>().powered = false;
-                //other.GetComponent<Renderer>().material.color = Color.white;
-                //other.GetComponent<Material>().color = Color.white;
-                other.GetComponentInChildren<Renderer>().material.color = Color.white;
-
-                // Destroy the destructible
-                Destroy(gameObject, .1f);
-            }
+            other.GetComponent<PlayerController>().powered = false;
+        }
+        if (health <= 0)
+        {
+            isDestroyed = true;
+            // Destroy the destructible
+            Destroy(gameObject, .1f);
+            
             // Instantiate the particle effect
             //Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
