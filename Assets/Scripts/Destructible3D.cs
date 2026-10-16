@@ -41,6 +41,9 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private int maxPieces = 60;
     [Tooltip("Pieces longer than this get broken again")]
     [SerializeField] private float maxPieceSize = 0.75f;
+    [Tooltip("Fraction of broken pieces that stay in the level (0-1); the rest vanish on impact")]
+    [Range(0f, 1f)]
+    [SerializeField] private float piecesKept = 0.5f;
     private Fracture fracture;
     private int health;
     private bool isDestroyed = false;
@@ -112,25 +115,35 @@ public class Destructible3D : MonoBehaviour
     {
         isDestroyed = true;
 
+        if (fracture == null)
+        {
+            Destroy(gameObject, .1f);
+            return;
+        }
+
         Vector3 incoming = ball.LastVelocity;
         Vector3 hitPoint = collision.GetContact(0).point;
         float radius = obstacleRenderer.bounds.extents.magnitude * 2f;
 
-        if (fracture != null)
+        Transform fragmentRoot = FractureAndFindFragments();
+        if (fragmentRoot != null) BreakLargePieces(fragmentRoot);
+        // Push the pieces' new positions to the physics engine before applying force
+        Physics.SyncTransforms();
+        if (fragmentRoot != null)
         {
-            Transform fragmentRoot = FractureAndFindFragments();
-            if (fragmentRoot != null) BreakLargePieces(fragmentRoot);
-            // Push the pieces' new positions to the physics engine before applying force
-            Physics.SyncTransforms();
-            if (fragmentRoot != null)
+            // Burst from just behind the hit point so pieces fly away from the ball
+            Vector3 burstCenter = hitPoint - incoming.normalized * 0.5f;
+            foreach (Rigidbody piece in fragmentRoot.GetComponentsInChildren<Rigidbody>())
             {
-                // Burst from just behind the hit point so pieces fly away from the ball
-                Vector3 burstCenter = hitPoint - incoming.normalized * 0.5f;
-                foreach (Rigidbody piece in fragmentRoot.GetComponentsInChildren<Rigidbody>())
+                // Drop some pieces so the debris isn't overwhelming; reads as the object crumbling to dust
+                if (Random.value > piecesKept)
                 {
-                    piece.mass = fragmentMass;
-                    piece.AddExplosionForce(incoming.magnitude * burstStrength, burstCenter, radius, burstLift, ForceMode.VelocityChange);
+                    Destroy(piece.gameObject);
+                    continue;
                 }
+
+                piece.mass = fragmentMass;
+                piece.AddExplosionForce(incoming.magnitude * burstStrength, burstCenter, radius, burstLift, ForceMode.VelocityChange);
             }
         }
 

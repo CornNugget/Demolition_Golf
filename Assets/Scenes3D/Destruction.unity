@@ -4274,11 +4274,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: maxPieces
-      value: 250
+      value: 350
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: piecesKept
+      value: 0.241
       objectReference: {fileID: 0}
     - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: fragmentMass
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: maxPieceSize
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: burstStrength
