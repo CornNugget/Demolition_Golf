@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7658eb8bcf6cc4b40800ac7922d38e90, type: 2}
+  - {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,3 +127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 994eb0e7d7ece0c4dbb8be1b6d3291ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Destructible3D
+  obstacleType: 2
+  obstacleRenderer: {fileID: 1766114806552087457}
+  glassMaterial: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+  woodMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
+  steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  glassHealth: 1
+  woodHealth: 3
+  steelHealth: 15
