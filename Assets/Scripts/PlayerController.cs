@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,56 +7,92 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class PlayerController : MonoBehaviour
 {
-    [Tooltip("Forward/back speed (units/sec).")]
-    public float speed = 5.0f;
 
-    [Tooltip("Turn speed (degrees/sec).")]
-    public float rotationSpeed = 120.0f;
+    public float shootForce = 5.0f;
 
-    public float jumpForce = 5.0f;
+    public float mouseSensitivityX = 100f;
+    public float mouseSensitivityY = 100f;
 
+    public bool aiming = false;
+    public bool wait = false;
+    private bool shoot = false;
     private Rigidbody rb;
+    private Transform t;
 
     public bool powered = true;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        t = GetComponent<Transform>();
         if (rb == null) Debug.LogWarning("PlayerController needs a Rigidbody.");
+        // Keeps the cursor hidden and locked to the center
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        // Get the X and Y mouse movement values
+        float xRot = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSensitivityX;
+        float yRot = Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSensitivityY;
+
+        // Limit the amount the Y value can change
+        yRot = Mathf.Clamp(yRot, -15f, 15f);
+
+        // Update the euler angles to in the direction of the mouse movement
+        Vector3 angles = t.eulerAngles;
+        angles.x -= yRot;
+        // Limit the up and down movement
+        if(angles.x > 45.1f && angles.x < 360 - 45.1f)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+            if(yRot < 0)
+            {
+                angles.x = 45;
+            }
+            else
+            {
+                angles.x = 360 - 45;
+            }
         }
+        angles.y += xRot;
+        t.eulerAngles = angles;
+
+        if (!wait)
+        {
+            // When left click is pressed, switch aiming mode and wait for mouse to be released
+            if (Input.GetMouseButtonDown(0))
+            {
+                wait = true;
+
+                // When pressed in aiming mode, set shoot to true
+                if (aiming)
+                {
+                    shoot = true;
+                }
+
+                aiming = !aiming;
+            }
+        }
+        else
+        {
+            // leave wait when mouse is released
+            if (Input.GetMouseButtonUp(0))
+            {
+                wait = false;
+            }
+        }
+
+        
     }
 
     private void FixedUpdate()
     {
-        powered = true;
-        Vector2 moveInput = Vector2.zero;
-
-        // Forward/backward
-        if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) moveInput.y = 1f;
-        if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) moveInput.y = -1f;
-
-        // Left/right (rotation)
-        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) moveInput.x = -1f;
-        if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) moveInput.x = 1f;
-
-        // Move in facing direction 
-        Vector3 movement = transform.forward * moveInput.y * speed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + movement);
-
-        // Y-axis rotation (invert when going backwards)
-        float turnDirection = moveInput.x;
-        if (moveInput.y < 0)
-            turnDirection = -turnDirection;
-
-        float turn = turnDirection * rotationSpeed * Time.fixedDeltaTime;
-        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-        rb.MoveRotation(rb.rotation * turnRotation);
+        // if shoot is true, shoot the ball forward and power it
+        if (shoot)
+        {
+            shoot = !shoot;
+            powered = true;
+            rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+        }
     }
 }

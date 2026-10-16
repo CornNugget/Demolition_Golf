@@ -15,8 +15,6 @@ public class Destructible3D : MonoBehaviour
             if (other.GetComponent<PlayerController>().powered)
             {
                 other.GetComponent<PlayerController>().powered = false;
-                //other.GetComponent<Renderer>().material.color = Color.white;
-                //other.GetComponent<Material>().color = Color.white;
                 other.GetComponentInChildren<Renderer>().material.color = Color.white;
 
                 // Destroy the destructible
