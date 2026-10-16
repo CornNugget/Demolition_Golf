@@ -625,9 +625,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a123311eea06945a99b904c52d3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 5
-  rotationSpeed: 120
-  jumpForce: 5
+  shootForce: 5
+  mouseSensitivityX: 200
+  mouseSensitivityY: 50
+  aiming: 0
+  wait: 0
   powered: 1
 --- !u!54 &418818270
 Rigidbody:
@@ -654,7 +656,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!4 &418818271
 Transform:
@@ -716,9 +718,9 @@ MonoBehaviour:
   regularSpeed: 5
   stoneSpeed: 4
   diamondSpeed: 3.5
-  regularJump: 5
-  stoneJump: 3.5
-  diamondJump: 2.5
+  regularJump: 20
+  stoneJump: 15
+  diamondJump: 10
   regularDamage: 1
   stoneDamage: 3
   diamondDamage: 10

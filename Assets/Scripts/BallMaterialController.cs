@@ -104,22 +104,22 @@ public class BallMaterialController : MonoBehaviour
             case BallMaterialType.Stone:
                 ballRenderer.sharedMaterial = stoneMaterial;
                 rb.mass = stoneMass;
-                player.speed = stoneSpeed;
-                player.jumpForce = stoneJump;
+                //player.speed = stoneSpeed;
+                player.shootForce = stoneJump;
                 break;
 
             case BallMaterialType.Diamond:
                 ballRenderer.sharedMaterial = diamondMaterial;
                 rb.mass = diamondMass;
-                player.speed = diamondSpeed;
-                player.jumpForce = diamondJump;
+                //player.speed = diamondSpeed;
+                player.shootForce = diamondJump;
                 break;
 
             default:
                 ballRenderer.sharedMaterial = regularMaterial;
                 rb.mass = regularMass;
-                player.speed = regularSpeed;
-                player.jumpForce = regularJump;
+                //player.speed = regularSpeed;
+                player.shootForce = regularJump;
                 break;
         }
     }

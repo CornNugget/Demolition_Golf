@@ -66,7 +66,10 @@ public class Destructible3D : MonoBehaviour
 
         health -= ball.Damage;
         Collider other = collision.collider;
-        other.GetComponent<PlayerController>().powered = false;
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            other.GetComponent<PlayerController>().powered = false;
+        }
         if (health <= 0)
         {
             isDestroyed = true;
