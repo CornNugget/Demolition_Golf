@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: maxPieceSize
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5862663585963327921, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
+      propertyPath: piecesPerUnit
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7455156996763139913, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -73,9 +77,6 @@ PrefabInstance:
       addedObject: {fileID: 7053628869551551020}
     - targetCorrespondingSourceObject: {fileID: 7862665159787220130, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2839395133691700919}
-    - targetCorrespondingSourceObject: {fileID: 7862665159787220130, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2029679165110328131}
   m_SourcePrefab: {fileID: 100100000, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
 --- !u!1 &4622155694084273457 stripped
@@ -106,50 +107,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2839395133691700919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4622155694084273457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91fc9178a0b0c3d4bb8b6d91b16d9893, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: RuntimeAssembly::Fracture
-  triggerOptions:
-    triggerType: 0
-    minimumCollisionForce: 0
-    filterCollisionsByTag: 0
-    triggerAllowedTags: []
-    triggerKey: 0
-  fractureOptions:
-    fragmentCount: 10
-    xAxis: 1
-    yAxis: 1
-    zAxis: 1
-    detectFloatingFragments: 0
-    asynchronous: 0
-    insideMaterial: {fileID: 0}
-    textureScale: {x: 1, y: 1}
-    textureOffset: {x: 0, y: 0}
-  refractureOptions:
-    enableRefracturing: 0
-    maxRefractureCount: 1
-    invokeCallbacks: 0
-  callbackOptions:
-    onFracture:
-      m_PersistentCalls:
-        m_Calls: []
-    onCompleted:
-      m_PersistentCalls:
-        m_Calls: []
-  currentRefractureCount: 0
 --- !u!114 &2029679165110328131
 MonoBehaviour:
   m_ObjectHideFlags: 0
