@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 41761088}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1359,6 +1359,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+--- !u!1 &741881237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+  m_PrefabInstance: {fileID: 8526822369333793126}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &786748280
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,6 +1851,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1112478754319484129, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
   m_PrefabInstance: {fileID: 8526822369333793126}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1077273662
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741881237}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1077273663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741881237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fc9178a0b0c3d4bb8b6d91b16d9893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RuntimeAssembly::Fracture
+  triggerOptions:
+    triggerType: 2
+    minimumCollisionForce: 0
+    filterCollisionsByTag: 1
+    triggerAllowedTags:
+    - Player
+    triggerKey: 0
+  fractureOptions:
+    fragmentCount: 10
+    xAxis: 1
+    yAxis: 1
+    zAxis: 1
+    detectFloatingFragments: 0
+    asynchronous: 0
+    insideMaterial: {fileID: 0}
+    textureScale: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+  refractureOptions:
+    enableRefracturing: 0
+    maxRefractureCount: 1
+    invokeCallbacks: 0
+  callbackOptions:
+    onFracture:
+      m_PersistentCalls:
+        m_Calls: []
+    onCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  currentRefractureCount: 0
 --- !u!1001 &1102232212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4199,10 +4272,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: Destructible Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: maxPieces
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: fragmentMass
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: burstStrength
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: piecesPerUnit
+      value: 1.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1077273662}
+    - targetCorrespondingSourceObject: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1077273663}
   m_SourcePrefab: {fileID: 100100000, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

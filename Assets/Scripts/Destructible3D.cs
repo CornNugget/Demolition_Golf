@@ -35,6 +35,12 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private float burstStrength = 0.6f;
     [Tooltip("Tilts the burst upward so pieces tumble instead of sliding")]
     [SerializeField] private float burstLift = 0.3f;
+    [Tooltip("Broken pieces per cubic unit of the object's size")]
+    [SerializeField] private float piecesPerUnit = 0.5f;
+    [Tooltip("Upper limit on pieces, to keep breaking fast")]
+    [SerializeField] private int maxPieces = 60;
+    [Tooltip("Pieces longer than this get broken again")]
+    [SerializeField] private float maxPieceSize = 0.75f;
     private Fracture fracture;
     private int health;
     private bool isDestroyed = false;
@@ -49,6 +55,12 @@ public class Destructible3D : MonoBehaviour
             fracture.triggerOptions.triggerKey = KeyCode.None;
         }
         ApplyObstacleType();
+
+        // Use the object's own material for the broken faces unless one is set on the Fracture component
+        if (fracture != null && fracture.fractureOptions.insideMaterial == null)
+        {
+            fracture.fractureOptions.insideMaterial = obstacleRenderer.sharedMaterial;
+        }
     }
 
     private void ApplyObstacleType()
@@ -107,6 +119,9 @@ public class Destructible3D : MonoBehaviour
         if (fracture != null)
         {
             Transform fragmentRoot = FractureAndFindFragments();
+            if (fragmentRoot != null) BreakLargePieces(fragmentRoot);
+            // Push the pieces' new positions to the physics engine before applying force
+            Physics.SyncTransforms();
             if (fragmentRoot != null)
             {
                 // Burst from just behind the hit point so pieces fly away from the ball
@@ -131,6 +146,13 @@ public class Destructible3D : MonoBehaviour
 
     private Transform FractureAndFindFragments()
     {
+        BakeScaleIntoMesh();
+
+        // Bigger objects get more pieces so every object breaks into similar-sized chunks
+        Vector3 size = GetComponent<MeshFilter>().sharedMesh.bounds.size;
+        float volume = size.x * size.y * size.z;
+        fracture.fractureOptions.fragmentCount = Mathf.Clamp(Mathf.RoundToInt(volume * piecesPerUnit), 8, maxPieces);
+
         // OpenFracture puts the pieces under a new "<name>Fragments" object next to this one,
         // but doesn't expose it, so find the child that appears
         Transform parent = transform.parent;
@@ -144,5 +166,74 @@ public class Destructible3D : MonoBehaviour
         int childCountBefore = parent.childCount;
         fracture.CauseFracture();
         return parent.childCount > childCountBefore ? parent.GetChild(parent.childCount - 1) : null;
+    }
+
+    private void BakeScaleIntoMesh()
+    {
+        // OpenFracture cuts in the mesh's unscaled shape, so on a stretched object every cut
+        // ends up parallel to its biggest faces. Baking the stretch into the mesh evens out the cuts.
+        Vector3 scale = transform.localScale;
+        if (scale == Vector3.one) return;
+
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        Mesh mesh = Instantiate(meshFilter.sharedMesh);
+        Vector3[] vertices = mesh.vertices;
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            vertices[i] = Vector3.Scale(vertices[i], scale);
+        }
+        mesh.vertices = vertices;
+        mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
+
+        meshFilter.sharedMesh = mesh;
+        transform.localScale = Vector3.one;
+    }
+
+    private void BreakLargePieces(Transform fragmentRoot)
+    {
+        // Random cuts can leave long slabs, so keep re-breaking any piece that's still too big
+        int pieceCount = fragmentRoot.GetComponentsInChildren<MeshFilter>().Length;
+
+        for (int pass = 0; pass < 4; pass++)
+        {
+            MeshFilter[] pieces = fragmentRoot.GetComponentsInChildren<MeshFilter>();
+            // Biggest first, so if we hit the cap, the pieces left over are the smaller ones
+            System.Array.Sort(pieces, (a, b) => LongestSide(b).CompareTo(LongestSide(a)));
+
+            bool brokeAny = false;
+            foreach (MeshFilter piece in pieces)
+            {
+                float longest = LongestSide(piece);
+                if (longest <= maxPieceSize) break;
+
+                int count = Mathf.Min(Mathf.CeilToInt(longest / maxPieceSize) * 2, maxPieces - pieceCount + 1);
+                if (count < 2) return;
+
+                Fracture pieceFracture = piece.gameObject.AddComponent<Fracture>();
+                pieceFracture.triggerOptions = fracture.triggerOptions;
+                pieceFracture.refractureOptions = new RefractureOptions();
+                pieceFracture.callbackOptions = new CallbackOptions();
+                pieceFracture.fractureOptions = new FractureOptions
+                {
+                    fragmentCount = count,
+                    insideMaterial = fracture.fractureOptions.insideMaterial,
+                    textureScale = fracture.fractureOptions.textureScale,
+                    textureOffset = fracture.fractureOptions.textureOffset,
+                };
+                pieceFracture.CauseFracture();
+                Destroy(piece.gameObject);
+
+                pieceCount += count - 1;
+                brokeAny = true;
+            }
+            if (!brokeAny) return;
+        }
+    }
+
+    private static float LongestSide(MeshFilter piece)
+    {
+        Vector3 size = piece.sharedMesh.bounds.size;
+        return Mathf.Max(size.x, Mathf.Max(size.y, size.z));
     }
 }
