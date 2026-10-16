@@ -626,7 +626,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   shootForce: 5
-  mouseSensitivityX: 200
+  mouseSensitivityX: 100
   mouseSensitivityY: 50
   aiming: 0
   wait: 0
