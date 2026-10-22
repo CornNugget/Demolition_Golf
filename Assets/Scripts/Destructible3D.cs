@@ -25,6 +25,20 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private int glassHealth = 1;
     [SerializeField] private int woodHealth = 3;
     [SerializeField] private int steelHealth = 15;
+    
+    [Header("XP Rewards")]
+
+    [SerializeField]
+    [Min(0)]
+    private int glassXP = 10;
+
+    [SerializeField]
+    [Min(0)]
+    private int woodXP = 25;
+
+    [SerializeField]
+    [Min(0)]
+    private int steelXP = 50;
 
     [Header("Destruction")]
     [Tooltip("How much of its speed the ball keeps after breaking this (0-1)")]
@@ -111,9 +125,43 @@ public class Destructible3D : MonoBehaviour
         }
     }
 
-        private void Break(BallMaterialController ball, Collision collision)
+    private void GiveXP(BallMaterialController ball)
+    {
+        // 升级组件需要与 BallMaterialController 挂在同一个对象上。
+        BallLevelSystem levelSystem = ball.GetComponent<BallLevelSystem>();
+
+        if (levelSystem == null)
+        {
+            Debug.LogWarning("The ball is missing BallLevelSystem.", ball);
+            return;
+        }
+
+        int reward;
+
+        if (obstacleType == ObstacleMaterialType.Glass)
+        {
+            reward = glassXP;
+        }
+        else if (obstacleType == ObstacleMaterialType.Wood)
+        {
+            reward = woodXP;
+        }
+        else if (obstacleType == ObstacleMaterialType.Steel)
+        {
+            reward = steelXP;
+        }
+        else
+        {
+            return;
+        }
+
+        levelSystem.AddXP(reward);
+    }
+
+    private void Break(BallMaterialController ball, Collision collision)
     {
         isDestroyed = true;
+        GiveXP(ball);
 
         if (fracture == null)
         {

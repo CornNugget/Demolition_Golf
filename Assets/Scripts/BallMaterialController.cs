@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public enum BallMaterialType
 {
@@ -37,7 +38,19 @@ public class BallMaterialController : MonoBehaviour
     [SerializeField] private int stoneDamage = 3;
     [SerializeField] private int diamondDamage = 10;
 
-    public BallMaterialType currentMaterial = BallMaterialType.Regular;
+    [FormerlySerializedAs("currentMaterial")]
+    [SerializeField] private BallMaterialType equippedMaterial = BallMaterialType.Regular;
+
+    [Header("Level System")]
+    [SerializeField] private BallLevelSystem levelSystem;
+    public BallMaterialType currentMaterial
+    {
+        get
+        {
+            return equippedMaterial;
+        }
+    }
+
     public Vector3 LastVelocity { get; private set; } //used to record ball velocity before collision with a destructible object
     private PlayerController player;
     private Rigidbody rb;
@@ -63,10 +76,25 @@ public class BallMaterialController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        if (levelSystem == null)
+        {
+            levelSystem = GetComponent<BallLevelSystem>();
+        }
+
+        equippedMaterial = BallMaterialType.Regular;
         ApplyBallType();
     }
 
-        private void FixedUpdate()
+    private void Start()
+    {
+        if (levelSystem == null)
+        {
+            Debug.LogWarning("Add BallLevelSystem to the player to unlock Stone and Diamond.", this);
+        }
+    }
+
+    private void FixedUpdate()
     {
         LastVelocity = rb.linearVelocity;
     }
@@ -74,32 +102,55 @@ public class BallMaterialController : MonoBehaviour
     private void Update()
     {
         if (Keyboard.current == null)
+        {
             return;
+        }
 
         if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
         {
-            currentMaterial = BallMaterialType.Regular;
-            ApplyBallType();
+            TrySwitchMaterial(BallMaterialType.Regular);
         }
         else if (Keyboard.current.digit2Key.wasPressedThisFrame || Keyboard.current.numpad2Key.wasPressedThisFrame)
         {
-            currentMaterial = BallMaterialType.Stone;
-            ApplyBallType();
+            TrySwitchMaterial(BallMaterialType.Stone);
         }
         else if (Keyboard.current.digit3Key.wasPressedThisFrame || Keyboard.current.numpad3Key.wasPressedThisFrame)
         {
-            currentMaterial = BallMaterialType.Diamond;
-            ApplyBallType();
+            TrySwitchMaterial(BallMaterialType.Diamond);
         }
+    }
+
+    public bool IsMaterialUnlocked(BallMaterialType type)
+    {
+        if (type == BallMaterialType.Regular)
+        {
+            return true;
+        }
+
+        if (levelSystem == null)
+        {
+            return false;
+        }
+
+        return levelSystem.IsMaterialUnlocked(type);
+    }
+
+    public bool TrySwitchMaterial(BallMaterialType type)
+    {
+        if (IsMaterialUnlocked(type) == false)
+        {
+            Debug.Log(type + " is not unlocked yet.", this);
+            return false;
+        }
+
+        equippedMaterial = type;
+        ApplyBallType();
+        return true;
     }
 
     public void UpgradeTo(BallMaterialType type)
     {
-        if ((int)type <= (int)currentMaterial)
-            return;
-
-        currentMaterial = type;
-        ApplyBallType();
+        TrySwitchMaterial(type);
     }
 
     private void ApplyBallType()
