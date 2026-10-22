@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private Transform t;
 
     public bool powered = true;
+    public Trajectory trajectory;
 
     private void Start()
     {
@@ -93,6 +94,15 @@ public class PlayerController : MonoBehaviour
             shoot = !shoot;
             powered = true;
             rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+        }
+
+        if (aiming)
+        {
+            trajectory.Draw(transform.position, t.forward*shootForce);
+        }
+        else
+        {
+            trajectory.Hide();
         }
     }
 }
