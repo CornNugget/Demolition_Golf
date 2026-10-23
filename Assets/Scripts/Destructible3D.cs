@@ -25,7 +25,7 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private int glassHealth = 1;
     [SerializeField] private int woodHealth = 3;
     [SerializeField] private int steelHealth = 15;
-    
+
     [Header("XP Rewards")]
 
     [SerializeField]
@@ -60,6 +60,7 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private float piecesKept = 0.5f;
     private Fracture fracture;
     private int health;
+    private Material damageMaterial;
     private bool isDestroyed = false;
 
     private void Awake()
@@ -99,6 +100,7 @@ public class Destructible3D : MonoBehaviour
                 obstacleRenderer.sharedMaterial = glassMaterial;
                 break;
         }
+        damageMaterial = obstacleRenderer.material;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -111,6 +113,10 @@ public class Destructible3D : MonoBehaviour
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
 
         health -= ball.Damage;
+        if (health > 0) {
+            DarkenFromDamage();
+        }
+
         PlayerController player = ball.GetComponent<PlayerController>();
         if (player != null)
         {
@@ -123,6 +129,20 @@ public class Destructible3D : MonoBehaviour
             // Instantiate the particle effect
             //Instantiate(onCollectEffect, transform.position, transform.rotation);
         }
+    }
+
+    private void DarkenFromDamage()
+    {
+        if (damageMaterial == null) return;
+
+        Color currentColor = damageMaterial.color;
+        Color damagedColor = new Color(
+            currentColor.r * 0.9f,
+            currentColor.g * 0.9f,
+            currentColor.b * 0.9f,
+            currentColor.a);
+
+        damageMaterial.color = damagedColor;
     }
 
     private void GiveXP(BallMaterialController ball)
