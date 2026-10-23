@@ -59,6 +59,11 @@ public class Destructible3D : MonoBehaviour
     [Tooltip("Fraction of broken pieces that stay in the level (0-1); the rest vanish on impact")]
     [Range(0f, 1f)]
     [SerializeField] private float piecesKept = 0.5f;
+    [Tooltip("Seconds before broken pieces disappear (0 = they stay forever)")]
+    [Min(0f)]
+    [SerializeField] private float debrisLifetime = 30f;
+    [Tooltip("Color of the broken faces, unless an Inside Material is set on the Fracture component")]
+    [SerializeField] private Color insideColor = Color.black;
     private Fracture fracture;
     private int health;
     private Material damageMaterial;
@@ -81,10 +86,12 @@ public class Destructible3D : MonoBehaviour
         }
         ApplyObstacleType();
 
-        // Use the object's own material for the broken faces unless one is set on the Fracture component
+        // Give the broken faces a copy of the object's material in the inside color, unless one is set on the Fracture component
         if (fracture != null && fracture.fractureOptions.insideMaterial == null)
         {
-            fracture.fractureOptions.insideMaterial = obstacleRenderer.sharedMaterial;
+            Material insideMaterial = new Material(obstacleRenderer.sharedMaterial);
+            insideMaterial.color = insideColor;
+            fracture.fractureOptions.insideMaterial = insideMaterial;
         }
     }
 
@@ -220,6 +227,11 @@ public class Destructible3D : MonoBehaviour
 
                 piece.mass = fragmentMass;
                 piece.AddExplosionForce(incoming.magnitude * burstStrength, burstCenter, radius, burstLift, ForceMode.VelocityChange);
+            }
+
+            if (debrisLifetime > 0f)
+            {
+                Destroy(fragmentRoot.gameObject, debrisLifetime);
             }
         }
 
