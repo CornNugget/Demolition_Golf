@@ -2954,7 +2954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
   switchRenderer: {fileID: 786748282}
-  coveringObstacle: {fileID: 0}
+  coveringObstacle: {fileID: 1928273362}
   inactiveColor: {r: 0, g: 0, b: 1, a: 1}
   activeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!23 &786748282
@@ -3044,7 +3044,7 @@ Transform:
   m_GameObject: {fileID: 786748280}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.6200004, y: -0.067, z: -2.341}
+  m_LocalPosition: {x: 17.748, y: -0.287, z: 7.013}
   m_LocalScale: {x: 1.5, y: 0.2, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4118,6 +4118,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6913b4bc059ece647890283afbd6b222, type: 3}
+--- !u!1 &1137615733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
+  m_PrefabInstance: {fileID: 290727027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1141263404 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1730396314563124832, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
@@ -4156,7 +4161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
   switchRenderer: {fileID: 1183842779}
-  coveringObstacle: {fileID: 0}
+  coveringObstacle: {fileID: 2073742484}
   inactiveColor: {r: 0, g: 1, b: 0, a: 1}
   activeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!23 &1183842779
@@ -6192,6 +6197,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cb38f055f5049e41b6f199508a4174c, type: 3}
+--- !u!1 &1928273362 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
+  m_PrefabInstance: {fileID: 962400348}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1974789413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6452,6 +6462,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cb38f055f5049e41b6f199508a4174c, type: 3}
+--- !u!1 &2073742484 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7862665159787220130, guid: 63cf7a9dff863d2448b14139e80cc3f3, type: 3}
+  m_PrefabInstance: {fileID: 1903505355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2079018467
 GameObject:
   m_ObjectHideFlags: 0
@@ -6673,15 +6688,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.42000008
+      value: -6.855
       objectReference: {fileID: 0}
     - target: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.17
+      value: -0.376
       objectReference: {fileID: 0}
     - target: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.63
+      value: 6.906
       objectReference: {fileID: 0}
     - target: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6714,7 +6729,7 @@ PrefabInstance:
     - target: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: coveringObstacle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1137615733}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
