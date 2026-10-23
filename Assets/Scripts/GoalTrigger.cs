@@ -15,6 +15,7 @@ public class GoalTrigger : MonoBehaviour
         levelComplete = true;
         Cursor.lockState = CursorLockMode.None;
         timer.StopTimer();
+        if (GameAnalytics.Instance != null) GameAnalytics.Instance.LevelCompleted(timer.ElapsedTime);
         completeUI.Show(timer.ElapsedTime);
     }
 }
