@@ -133,3 +133,14 @@ MonoBehaviour:
   glassHealth: 1
   woodHealth: 3
   steelHealth: 15
+  glassXP: 10
+  woodXP: 25
+  steelXP: 50
+  keepSpeed: 0.8
+  fragmentMass: 0.5
+  burstStrength: 0.6
+  burstLift: 0.3
+  piecesPerUnit: 0.5
+  maxPieces: 60
+  maxPieceSize: 0.75
+  piecesKept: 0.5
