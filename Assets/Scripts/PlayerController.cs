@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         // Limit the amount the X and Y value can change
         yRot = Mathf.Clamp(yRot, -15f, 15f);
-        //xRot = Mathf.Clamp(xRot, -100f, 100f);
+        xRot = Mathf.Clamp(xRot, -100f, 100f);
 
         // Update the euler angles to in the direction of the mouse movement
         Vector3 angles = t.eulerAngles;
