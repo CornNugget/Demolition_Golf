@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ObstacleMaterialType
 {
@@ -62,6 +63,12 @@ public class Destructible3D : MonoBehaviour
     private int health;
     private Material damageMaterial;
     private bool isDestroyed = false;
+
+    [Header("Damage Visualization")]
+    [SerializeField]
+    [Range(0, 100)]
+    [Tooltip("Percentage by which object brightness is reduced after each hit.")]
+    private int darkeningPerHit = 15;
 
     private void Awake()
     {
@@ -136,10 +143,11 @@ public class Destructible3D : MonoBehaviour
         if (damageMaterial == null) return;
 
         Color currentColor = damageMaterial.color;
+        float brightnessMultiplier = 1f - darkeningPerHit / 100f;
         Color damagedColor = new Color(
-            currentColor.r * 0.9f,
-            currentColor.g * 0.9f,
-            currentColor.b * 0.9f,
+            currentColor.r * brightnessMultiplier,
+            currentColor.g * brightnessMultiplier,
+            currentColor.b * brightnessMultiplier,
             currentColor.a);
 
         damageMaterial.color = damagedColor;
