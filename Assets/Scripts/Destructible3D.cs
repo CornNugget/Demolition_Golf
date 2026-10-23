@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ObstacleMaterialType
 {
@@ -26,6 +27,20 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private int woodHealth = 3;
     [SerializeField] private int steelHealth = 15;
 
+    [Header("XP Rewards")]
+
+    [SerializeField]
+    [Min(0)]
+    private int glassXP = 10;
+
+    [SerializeField]
+    [Min(0)]
+    private int woodXP = 25;
+
+    [SerializeField]
+    [Min(0)]
+    private int steelXP = 50;
+
     [Header("Destruction")]
     [Tooltip("How much of its speed the ball keeps after breaking this (0-1)")]
     [SerializeField] private float keepSpeed = 0.8f;
@@ -46,7 +61,14 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private float piecesKept = 0.5f;
     private Fracture fracture;
     private int health;
+    private Material damageMaterial;
     private bool isDestroyed = false;
+
+    [Header("Damage Visualization")]
+    [SerializeField]
+    [Range(0, 100)]
+    [Tooltip("Percentage by which object brightness is reduced after each hit.")]
+    private int darkeningPerHit = 15;
 
     private void Awake()
     {
@@ -85,6 +107,7 @@ public class Destructible3D : MonoBehaviour
                 obstacleRenderer.sharedMaterial = glassMaterial;
                 break;
         }
+        damageMaterial = obstacleRenderer.material;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -97,6 +120,10 @@ public class Destructible3D : MonoBehaviour
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
 
         health -= ball.Damage;
+        if (health > 0) {
+            DarkenFromDamage();
+        }
+
         PlayerController player = ball.GetComponent<PlayerController>();
         if (player != null)
         {
@@ -111,9 +138,58 @@ public class Destructible3D : MonoBehaviour
         }
     }
 
-        private void Break(BallMaterialController ball, Collision collision)
+    private void DarkenFromDamage()
+    {
+        if (damageMaterial == null) return;
+
+        Color currentColor = damageMaterial.color;
+        float brightnessMultiplier = 1f - darkeningPerHit / 100f;
+        Color damagedColor = new Color(
+            currentColor.r * brightnessMultiplier,
+            currentColor.g * brightnessMultiplier,
+            currentColor.b * brightnessMultiplier,
+            currentColor.a);
+
+        damageMaterial.color = damagedColor;
+    }
+
+    private void GiveXP(BallMaterialController ball)
+    {
+        // 升级组件需要与 BallMaterialController 挂在同一个对象上。
+        BallLevelSystem levelSystem = ball.GetComponent<BallLevelSystem>();
+
+        if (levelSystem == null)
+        {
+            Debug.LogWarning("The ball is missing BallLevelSystem.", ball);
+            return;
+        }
+
+        int reward;
+
+        if (obstacleType == ObstacleMaterialType.Glass)
+        {
+            reward = glassXP;
+        }
+        else if (obstacleType == ObstacleMaterialType.Wood)
+        {
+            reward = woodXP;
+        }
+        else if (obstacleType == ObstacleMaterialType.Steel)
+        {
+            reward = steelXP;
+        }
+        else
+        {
+            return;
+        }
+
+        levelSystem.AddXP(reward);
+    }
+
+    private void Break(BallMaterialController ball, Collision collision)
     {
         isDestroyed = true;
+        GiveXP(ball);
 
         if (fracture == null)
         {

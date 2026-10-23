@@ -13,6 +13,7 @@ public class GoalTrigger : MonoBehaviour
         if(levelComplete) return;
         if(!collision.CompareTag("Player")) return;
         levelComplete = true;
+        Cursor.lockState = CursorLockMode.None;
         timer.StopTimer();
         completeUI.Show(timer.ElapsedTime);
     }

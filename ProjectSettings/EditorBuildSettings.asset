@@ -12,13 +12,13 @@ EditorBuildSettings:
     path: Assets/Scenes2D/FinalScene.unity
     guid: fabfbc1e53133564caa4843a080ac775
   - enabled: 0
-    path: Assets/Scenes3D/TimerTest3D_v2.unity
+    path: Assets/Scenes3D/FeatureScenes/TimerTest3D_v2.unity
     guid: 8c8cb6a3f51e9400f8275e49fa59be02
-  - enabled: 0
-    path: Assets/Scenes3D/AlphaScene.unity
-    guid: a993ab0635ad61245af049531af810a5
   - enabled: 1
-    path: Assets/Scenes3D/Destruction.unity
+    path: Assets/Scenes3D/AlphaScene.unity
+    guid: bff9440c59050314c869dedfd5fade23
+  - enabled: 0
+    path: Assets/Scenes3D/FeatureScenes/Destruction.unity
     guid: 2b16d05f3da2e6e4fb4172e3f85fa377
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
