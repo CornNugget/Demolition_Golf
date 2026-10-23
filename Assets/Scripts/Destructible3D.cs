@@ -125,13 +125,15 @@ public class Destructible3D : MonoBehaviour
 
         if (ball == null) return;
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
+        PlayerController player = ball.GetComponent<PlayerController>();
+        if (!player.powered) return;
 
         health -= ball.Damage;
         if (health > 0) {
             DarkenFromDamage();
         }
 
-        PlayerController player = ball.GetComponent<PlayerController>();
+        
         if (player != null)
         {
             player.powered = false;
