@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7862665159787220130
+--- !u!1 &4579285627799263375
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,48 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7455156996763139913}
-  - component: {fileID: 1957209565119248481}
-  - component: {fileID: 1766114806552087457}
-  - component: {fileID: 9069384399863295013}
-  - component: {fileID: 5862663585963327921}
+  - component: {fileID: 4677893642762957277}
+  - component: {fileID: 1226597732597346348}
+  - component: {fileID: 903566564445465109}
+  - component: {fileID: 8577932293002261477}
+  - component: {fileID: 2557502530772694264}
   m_Layer: 0
-  m_Name: DestructibleCylinder
+  m_Name: DestructibleBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7455156996763139913
+--- !u!4 &4677893642762957277
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862665159787220130}
+  m_GameObject: {fileID: 4579285627799263375}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.88469, y: 0.59, z: -5.23}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13.4, y: 0.3864, z: -10.73}
+  m_LocalScale: {x: 2.853751, y: 1.9140059, z: 3.9881592}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1957209565119248481
+--- !u!33 &1226597732597346348
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862665159787220130}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1766114806552087457
+  m_GameObject: {fileID: 4579285627799263375}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &903566564445465109
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862665159787220130}
+  m_GameObject: {fileID: 4579285627799263375}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -68,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  - {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,13 +92,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &9069384399863295013
-CapsuleCollider:
+--- !u!65 &8577932293002261477
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862665159787220130}
+  m_GameObject: {fileID: 4579285627799263375}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -110,25 +110,23 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2.5
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &5862663585963327921
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2557502530772694264
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862665159787220130}
+  m_GameObject: {fileID: 4579285627799263375}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 994eb0e7d7ece0c4dbb8be1b6d3291ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Destructible3D
-  obstacleType: 2
-  obstacleRenderer: {fileID: 1766114806552087457}
+  obstacleType: 1
+  obstacleRenderer: {fileID: 903566564445465109}
   glassMaterial: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
   woodMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
   steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
@@ -146,3 +144,6 @@ MonoBehaviour:
   maxPieces: 60
   maxPieceSize: 0.75
   piecesKept: 0.5
+  debrisLifetime: 30
+  insideColor: {r: 0, g: 0, b: 0, a: 1}
+  darkeningPerHit: 15
