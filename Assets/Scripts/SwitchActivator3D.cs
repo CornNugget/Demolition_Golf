@@ -86,13 +86,17 @@ public class SwitchActivator3D : MonoBehaviour
                 switchRenderer.enabled = true;
             }
 
+            Material material = switchRenderer.material;
+
             if (IsActivated == true)
             {
-                switchRenderer.material.color = activeColor;
+                material.color = activeColor;
+                material.SetColor("_EmissionColor", Color.black);
             }
             else
             {
-                switchRenderer.material.color = inactiveColor;
+                material.color = inactiveColor;
+                material.SetColor("_EmissionColor", inactiveColor * 8f);
             }
         }
     }
