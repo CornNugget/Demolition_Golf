@@ -389,6 +389,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
   m_PrefabInstance: {fileID: 1065587660989578428}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &123433829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
+  m_PrefabInstance: {fileID: 1065587660989578428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eceec39605736a0478eec351fe7ddfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
 --- !u!1 &126169852
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,7 +1330,7 @@ PrefabInstance:
     - target: {fileID: 656337334130674550, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: targetSwitch
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 786748281}
     - target: {fileID: 1838163527065813237, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1407,11 +1418,11 @@ PrefabInstance:
     - target: {fileID: 5656481490375466074, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: targetSwitch
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 123433829}
     - target: {fileID: 7245595724474061383, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: targetSwitch
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1183842778}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2486,6 +2497,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757182909}
   m_CullTransparentMesh: 1
+--- !u!114 &786748281 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
+  m_PrefabInstance: {fileID: 1174127978}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eceec39605736a0478eec351fe7ddfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
 --- !u!4 &786748285 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
@@ -3389,6 +3411,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
+--- !u!114 &1183842778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
+  m_PrefabInstance: {fileID: 1515714254}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eceec39605736a0478eec351fe7ddfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
 --- !u!4 &1183842782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6677100699906548672, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
@@ -5966,15 +5999,15 @@ PrefabInstance:
     - target: {fileID: 182104459467770302, guid: 85dfdb6f5a7c0b643a69544f52a69307, type: 3}
       propertyPath: 'switches.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 123433829}
     - target: {fileID: 182104459467770302, guid: 85dfdb6f5a7c0b643a69544f52a69307, type: 3}
       propertyPath: 'switches.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 786748281}
     - target: {fileID: 182104459467770302, guid: 85dfdb6f5a7c0b643a69544f52a69307, type: 3}
       propertyPath: 'switches.Array.data[2]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1183842778}
     - target: {fileID: 2844564357224784396, guid: 85dfdb6f5a7c0b643a69544f52a69307, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.41
