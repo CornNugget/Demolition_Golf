@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes3D/StartMenu.unity
+    guid: 9bd5ef77a794844f896f7a6ebf3fc87a
   - enabled: 0
     path: Assets/Scenes2D/MovementTest.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
@@ -17,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes3D/AlphaScene.unity
     guid: bff9440c59050314c869dedfd5fade23
+  - enabled: 1
+    path: Assets/Scenes3D/BetaScene.unity
+    guid: a998c4661b083144da8579af860fc649
   - enabled: 0
     path: Assets/Scenes3D/FeatureScenes/Destruction.unity
     guid: 2b16d05f3da2e6e4fb4172e3f85fa377
