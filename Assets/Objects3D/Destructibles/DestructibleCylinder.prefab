@@ -146,6 +146,6 @@ MonoBehaviour:
   maxPieces: 60
   maxPieceSize: 0.75
   piecesKept: 0.5
-  debrisLifetime: 30
+  debrisLifetime: 13
   insideColor: {r: 0, g: 0, b: 0, a: 1}
   darkeningPerHit: 15

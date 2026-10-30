@@ -35,7 +35,7 @@ public class GameAnalytics : MonoBehaviour
         LevelCompletedEvent levelCompleted = new LevelCompletedEvent
         {
             LevelName = SceneManager.GetActiveScene().name,
-            ClearTimeSeconds = clearTimeSeconds
+            ClearTimeSecondsF = clearTimeSeconds
         };
         AnalyticsService.Instance.RecordEvent(levelCompleted);
         AnalyticsService.Instance.Flush();

@@ -61,7 +61,7 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private float piecesKept = 0.5f;
     [Tooltip("Seconds before broken pieces disappear (0 = they stay forever)")]
     [Min(0f)]
-    [SerializeField] private float debrisLifetime = 30f;
+    [SerializeField] private float debrisLifetime = 13f;
     [Tooltip("Color of the broken faces, unless an Inside Material is set on the Fracture component")]
     [SerializeField] private Color insideColor = Color.black;
     private Fracture fracture;
