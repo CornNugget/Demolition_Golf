@@ -504,6 +504,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ebfdd1a5cc7c04d99abfc69f6212dd, type: 3}
+--- !u!1 &239231760 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4622155694084273457, guid: c4ebfdd1a5cc7c04d99abfc69f6212dd, type: 3}
+  m_PrefabInstance: {fileID: 239231759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &330753698 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1112478754319484129, guid: 4cb38f055f5049e41b6f199508a4174c, type: 3}
@@ -724,6 +729,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ebfdd1a5cc7c04d99abfc69f6212dd, type: 3}
+--- !u!1 &492714214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4622155694084273457, guid: c4ebfdd1a5cc7c04d99abfc69f6212dd, type: 3}
+  m_PrefabInstance: {fileID: 492714213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &496287560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1449,6 +1459,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
+--- !u!1 &972978614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
+  m_PrefabInstance: {fileID: 972978613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1056104999 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5354489250845918938, guid: c4ebfdd1a5cc7c04d99abfc69f6212dd, type: 3}
@@ -1538,7 +1553,7 @@ PrefabInstance:
     - target: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: coveringObstacle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 972978614}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1912,7 +1927,7 @@ PrefabInstance:
     - target: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: coveringObstacle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 492714214}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2831,7 +2846,7 @@ PrefabInstance:
     - target: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: coveringObstacle
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 239231760}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
