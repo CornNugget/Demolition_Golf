@@ -7,6 +7,7 @@ public enum ObstacleMaterialType
     Glass,
     Wood,
     Steel,
+    DryWall,
 }
 
 public class Destructible3D : MonoBehaviour
@@ -19,11 +20,13 @@ public class Destructible3D : MonoBehaviour
 
     [Header("Materials")]
     [SerializeField] private Material glassMaterial;
+    [SerializeField] private Material dryWallMaterial;
     [SerializeField] private Material woodMaterial;
     [SerializeField] private Material steelMaterial;
 
     [Header("Health")]
     [SerializeField] private int glassHealth = 1;
+    [SerializeField] private int dryWallHealth = 2;
     [SerializeField] private int woodHealth = 3;
     [SerializeField] private int steelHealth = 15;
 
@@ -31,7 +34,8 @@ public class Destructible3D : MonoBehaviour
 
     [SerializeField]
     [Min(0)]
-    private int glassXP = 10;
+    private int glassXP = 5;
+    private int dryWallXP = 10;
 
     [SerializeField]
     [Min(0)]
@@ -109,6 +113,11 @@ public class Destructible3D : MonoBehaviour
                 obstacleRenderer.sharedMaterial = steelMaterial;
                 break;
 
+            case ObstacleMaterialType.DryWall:
+                health = dryWallHealth;
+                obstacleRenderer.sharedMaterial = dryWallMaterial;
+                break;
+
             default:
                 health = glassHealth;
                 obstacleRenderer.sharedMaterial = glassMaterial;
@@ -178,6 +187,10 @@ public class Destructible3D : MonoBehaviour
         if (obstacleType == ObstacleMaterialType.Glass)
         {
             reward = glassXP;
+        }
+        else if (obstacleType == ObstacleMaterialType.DryWall)
+        {
+            reward = dryWallXP;
         }
         else if (obstacleType == ObstacleMaterialType.Wood)
         {

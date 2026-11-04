@@ -5,6 +5,7 @@ public class SwitchActivator3D : MonoBehaviour
 {
     [SerializeField] private Renderer switchRenderer;
     [SerializeField] private GameObject coveringObstacle;
+    [SerializeField] private bool showWhileCovered;
     [SerializeField] private Color inactiveColor = Color.red;
     [SerializeField] private Color activeColor = Color.yellow;
 
@@ -77,7 +78,7 @@ public class SwitchActivator3D : MonoBehaviour
 
         if (switchRenderer != null)
         {
-            if (covered == true)
+            if (covered == true && showWhileCovered == false)
             {
                 switchRenderer.enabled = false;
             }
