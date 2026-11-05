@@ -127,5 +127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SwitchActivator3D
   switchRenderer: {fileID: 5427387602896724429}
   coveringObstacle: {fileID: 0}
+  showWhileCovered: 0
   inactiveColor: {r: 1, g: 0, b: 0, a: 1}
-  activeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  activeColor: {r: 0, g: 1, b: 0, a: 1}
