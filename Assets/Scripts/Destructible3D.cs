@@ -25,6 +25,8 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private Material steelMaterial;
 
     [Header("Health")]
+    [Tooltip("Off = breaks on the first powered hit, e.g. to showcase destruction. Keep on for the real game.")]
+    [SerializeField] private bool useHealth = true;
     [SerializeField] private int glassHealth = 1;
     [SerializeField] private int dryWallHealth = 2;
     [SerializeField] private int woodHealth = 3;
@@ -69,6 +71,7 @@ public class Destructible3D : MonoBehaviour
     [Tooltip("Color of the broken faces, unless an Inside Material is set on the Fracture component")]
     [SerializeField] private Color insideColor = Color.black;
     private Fracture fracture;
+    private VoxelDestructible voxels;
     private int health;
     private Material damageMaterial;
     private bool isDestroyed = false;
@@ -79,10 +82,16 @@ public class Destructible3D : MonoBehaviour
     [Tooltip("Percentage by which object brightness is reduced after each hit.")]
     private int darkeningPerHit = 15;
 
+    public ObstacleMaterialType ObstacleType => obstacleType;
+
+    // True from the hit that takes HP to 0, even while voxel rubble is still standing
+    public bool IsBroken => isDestroyed;
+
     private void Awake()
     {
         obstacleRenderer = GetComponentInChildren<Renderer>();
-        fracture = GetComponent<Fracture>(); 
+        voxels = GetComponent<VoxelDestructible>();
+        fracture = GetComponent<Fracture>();
         if (fracture != null)
         {
             fracture.triggerOptions.triggerType = TriggerType.Keyboard;
@@ -128,32 +137,38 @@ public class Destructible3D : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isDestroyed) return;
+        // A fractured object is gone; a voxel object stays as rubble that can still be carved
+        if (isDestroyed && voxels == null) return;
 
         BallMaterialController ball = collision.collider.GetComponentInParent<BallMaterialController>();
 
         if (ball == null) return;
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
         PlayerController player = ball.GetComponent<PlayerController>();
-        if (!player.powered) return;
-
-        health -= ball.Damage;
-        if (health > 0) {
-            DarkenFromDamage();
-        }
-
-        
         if (player != null)
         {
+            if (!player.powered) return;
             player.powered = false;
         }
-        if (health <= 0)
-        {
-            Break(ball, collision); //function for physical destruction of object
 
-            // Instantiate the particle effect
-            //Instantiate(onCollectEffect, transform.position, transform.rotation);
+        // Already broken: further hits only carve the rubble, with no more XP
+        if (isDestroyed)
+        {
+            voxels.TakeHit(ball, collision);
+            return;
         }
+
+        health -= ball.Damage;
+        if (useHealth && health > 0)
+        {
+            DarkenFromDamage();
+            return;
+        }
+
+        Break(ball, collision); //function for physical destruction of object
+
+        // Instantiate the particle effect
+        //Instantiate(onCollectEffect, transform.position, transform.rotation);
     }
 
     private void DarkenFromDamage()
@@ -212,6 +227,13 @@ public class Destructible3D : MonoBehaviour
     {
         isDestroyed = true;
         GiveXP(ball);
+
+        // Voxel objects only start carving once their health is gone
+        if (voxels != null)
+        {
+            voxels.TakeHit(ball, collision);
+            return;
+        }
 
         if (fracture == null)
         {

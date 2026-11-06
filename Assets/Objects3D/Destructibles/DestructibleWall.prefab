@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1451718885182407179}
   - component: {fileID: 4264771743205395654}
   - component: {fileID: 9087024065411260585}
+  - component: {fileID: 7300000000000000103}
   m_Layer: 0
   m_Name: DestructibleWall
   m_TagString: Untagged
@@ -144,3 +145,15 @@ MonoBehaviour:
   maxPieces: 60
   maxPieceSize: 0.75
   piecesKept: 0.5
+--- !u!114 &7300000000000000103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1891739802427439955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
