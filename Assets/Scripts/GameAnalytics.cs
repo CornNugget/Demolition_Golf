@@ -4,10 +4,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UnityConsent;
 
-// Starts Unity Analytics and records how long it takes to get the ball in the hole.
+// Starts Unity Analytics and records the level's custom events.
+// There's one in each level scene, so the counters start fresh every level.
 public class GameAnalytics : MonoBehaviour
 {
     public static GameAnalytics Instance { get; private set; }
+
+    private int shotsTaken;
+    private int switchesActivated;
+
+    private static bool Ready => UnityServices.State == ServicesInitializationState.Initialized;
+    private static string LevelName => SceneManager.GetActiveScene().name;
+    // The level timer starts when the scene loads, so this matches it
+    private static float LevelTime => Time.timeSinceLevelLoad;
 
     private void Awake()
     {
@@ -26,16 +35,51 @@ public class GameAnalytics : MonoBehaviour
             AnalyticsIntent = ConsentStatus.Granted,
             AdsIntent = ConsentStatus.Denied
         });
+
+        if (!Ready) return;
+        AnalyticsService.Instance.RecordEvent(new LevelStartedEvent { LevelName = LevelName });
+    }
+
+    public void ShotTaken()
+    {
+        shotsTaken++;
+    }
+
+    public void SwitchActivated(string switchName)
+    {
+        switchesActivated++;
+        if (!Ready) return;
+
+        AnalyticsService.Instance.RecordEvent(new SwitchActivatedEvent
+        {
+            LevelName = LevelName,
+            SwitchName = switchName,
+            SwitchOrder = switchesActivated,
+            TimeSeconds = LevelTime
+        });
+    }
+
+    public void MaterialUnlocked(BallMaterialType material)
+    {
+        if (!Ready) return;
+
+        AnalyticsService.Instance.RecordEvent(new MaterialUnlockedEvent
+        {
+            LevelName = LevelName,
+            Material = material.ToString(),
+            TimeSeconds = LevelTime
+        });
     }
 
     public void LevelCompleted(float clearTimeSeconds)
     {
-        if (UnityServices.State != ServicesInitializationState.Initialized) return;
+        if (!Ready) return;
 
         LevelCompletedEvent levelCompleted = new LevelCompletedEvent
         {
-            LevelName = SceneManager.GetActiveScene().name,
-            ClearTimeSecondsF = clearTimeSeconds
+            LevelName = LevelName,
+            ClearTimeSecondsF = clearTimeSeconds,
+            ShotsTaken = shotsTaken
         };
         AnalyticsService.Instance.RecordEvent(levelCompleted);
         AnalyticsService.Instance.Flush();

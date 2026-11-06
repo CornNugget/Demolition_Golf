@@ -142,6 +142,7 @@ public class SwitchActivator3D : MonoBehaviour
 
         IsActivated = true;
         RefreshVisuals();
+        if (GameAnalytics.Instance != null) GameAnalytics.Instance.SwitchActivated(gameObject.name);
 
         Debug.Log(gameObject.name + " activated!", this);
     }
