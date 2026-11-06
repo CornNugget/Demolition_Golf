@@ -94,11 +94,15 @@ public class PlayerController : MonoBehaviour
         {
             shoot = !shoot;
             powered = true;
+            rb.useGravity = true;
             rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+            if (GameAnalytics.Instance != null) GameAnalytics.Instance.ShotTaken();
         }
 
         if (aiming)
         {
+            rb.useGravity = false;
+            rb.linearVelocity = Vector3.zero;
             trajectory.Draw(transform.position, t.forward*shootForce);
         }
         else

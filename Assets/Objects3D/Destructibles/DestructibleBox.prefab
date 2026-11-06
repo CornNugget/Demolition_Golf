@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 903566564445465109}
   - component: {fileID: 8577932293002261477}
   - component: {fileID: 2557502530772694264}
+  - component: {fileID: 7300000000000000101}
   m_Layer: 0
   m_Name: DestructibleBox
   m_TagString: Untagged
@@ -128,9 +129,11 @@ MonoBehaviour:
   obstacleType: 1
   obstacleRenderer: {fileID: 903566564445465109}
   glassMaterial: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+  dryWallMaterial: {fileID: 2100000, guid: f454e181f7134d04cb857a12ae9c9d7c, type: 2}
   woodMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
   steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
   glassHealth: 1
+  dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
   glassXP: 10
@@ -144,6 +147,18 @@ MonoBehaviour:
   maxPieces: 60
   maxPieceSize: 0.75
   piecesKept: 0.5
-  debrisLifetime: 30
+  debrisLifetime: 13
   insideColor: {r: 0, g: 0, b: 0, a: 1}
   darkeningPerHit: 15
+--- !u!114 &7300000000000000101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4579285627799263375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible

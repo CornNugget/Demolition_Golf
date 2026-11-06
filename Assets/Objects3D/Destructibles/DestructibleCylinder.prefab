@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1766114806552087457}
   - component: {fileID: 9069384399863295013}
   - component: {fileID: 5862663585963327921}
+  - component: {fileID: 7300000000000000102}
   m_Layer: 0
   m_Name: DestructibleCylinder
   m_TagString: Untagged
@@ -146,6 +147,18 @@ MonoBehaviour:
   maxPieces: 60
   maxPieceSize: 0.75
   piecesKept: 0.5
-  debrisLifetime: 30
+  debrisLifetime: 13
   insideColor: {r: 0, g: 0, b: 0, a: 1}
   darkeningPerHit: 15
+--- !u!114 &7300000000000000102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7862665159787220130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible

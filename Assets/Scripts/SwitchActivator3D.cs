@@ -5,6 +5,7 @@ public class SwitchActivator3D : MonoBehaviour
 {
     [SerializeField] private Renderer switchRenderer;
     [SerializeField] private GameObject coveringObstacle;
+    [SerializeField] private bool showWhileCovered;
     [SerializeField] private Color inactiveColor = Color.red;
     [SerializeField] private Color activeColor = Color.yellow;
 
@@ -23,10 +24,17 @@ public class SwitchActivator3D : MonoBehaviour
     }
 
     private BoxCollider triggerArea;
+    private Destructible3D coveringDestructible;
 
     private void Awake()
     {
         triggerArea = GetComponent<BoxCollider>();
+
+        // Voxel obstacles leave rubble standing after they break, so check "broken" instead of only "gone"
+        if (coveringObstacle != null)
+        {
+            coveringDestructible = coveringObstacle.GetComponent<Destructible3D>();
+        }
         triggerArea.isTrigger = true;
 
         if (switchRenderer == null)
@@ -55,6 +63,11 @@ public class SwitchActivator3D : MonoBehaviour
             return false;
         }
 
+        if (coveringDestructible != null && coveringDestructible.IsBroken == true)
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -77,7 +90,7 @@ public class SwitchActivator3D : MonoBehaviour
 
         if (switchRenderer != null)
         {
-            if (covered == true)
+            if (covered == true && showWhileCovered == false)
             {
                 switchRenderer.enabled = false;
             }
@@ -141,6 +154,7 @@ public class SwitchActivator3D : MonoBehaviour
 
         IsActivated = true;
         RefreshVisuals();
+        if (GameAnalytics.Instance != null) GameAnalytics.Instance.SwitchActivated(gameObject.name);
 
         Debug.Log(gameObject.name + " activated!", this);
     }

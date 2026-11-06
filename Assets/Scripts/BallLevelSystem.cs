@@ -149,6 +149,7 @@ public class BallLevelSystem : MonoBehaviour
             currentLevel = currentLevel + 1;
 
             Debug.Log("Level up! Current level: " + currentLevel, this);
+            ReportUnlocks();
         }
 
         if (IsMaxLevel == true)
@@ -160,6 +161,15 @@ public class BallLevelSystem : MonoBehaviour
         {
             XPGained(acceptedXP);
         }
+    }
+
+    // Sends an analytics event for each material that unlocks at the level just reached
+    private void ReportUnlocks()
+    {
+        if (GameAnalytics.Instance == null) return;
+
+        if (stoneUnlockLevel == currentLevel) GameAnalytics.Instance.MaterialUnlocked(BallMaterialType.Stone);
+        if (diamondUnlockLevel == currentLevel) GameAnalytics.Instance.MaterialUnlocked(BallMaterialType.Diamond);
     }
 
 }
