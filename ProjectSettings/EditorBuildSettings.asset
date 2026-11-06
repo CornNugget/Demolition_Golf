@@ -17,10 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes3D/FeatureScenes/TimerTest3D_v2.unity
     guid: 8c8cb6a3f51e9400f8275e49fa59be02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes3D/ArchivedScenes/AlphaScene.unity
     guid: bff9440c59050314c869dedfd5fade23
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes3D/BetaScene.unity
     guid: a998c4661b083144da8579af860fc649
   - enabled: 0
