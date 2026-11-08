@@ -331,6 +331,8 @@ MonoBehaviour:
   shootForce: 5
   mouseSensitivityX: 50
   mouseSensitivityY: 50
+  keySensitivityX: 0.7
+  keySensitivityY: 0.7
   aiming: 0
   wait: 0
   powered: 1
