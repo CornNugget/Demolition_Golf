@@ -360,6 +360,11 @@ MonoBehaviour:
   switches:
   - {fileID: 995377156}
   goalBlocker: {fileID: 1821361676}
+--- !u!1 &110232542 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
+  m_PrefabInstance: {fileID: 696369809}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &114351898 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1838163527065813237, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
@@ -5859,7 +5864,7 @@ PrefabInstance:
     - target: {fileID: 7261423696879492605, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: coveringObstacle
       value: 
-      objectReference: {fileID: 1598709669}
+      objectReference: {fileID: 110232542}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
