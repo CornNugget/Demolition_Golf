@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour
             powered = true;
             rb.useGravity = true;
             rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+            if (GameAnalytics.Instance != null) GameAnalytics.Instance.ShotTaken();
         }
 
         if (aiming)

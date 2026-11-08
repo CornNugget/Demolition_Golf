@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1891739802427439955, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: m_Name
-      value: Destructible Wall Variant
+      value: Destructible Wall_Fracture
       objectReference: {fileID: 0}
     - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: maxPieces
@@ -69,6 +69,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: obstacleType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
       propertyPath: burstStrength
       value: 2.5
       objectReference: {fileID: 0}
@@ -76,6 +80,10 @@ PrefabInstance:
       propertyPath: piecesPerUnit
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 9087024065411260585, guid: 7bcc39ed3749a024081d028f650544a5, type: 3}
+      propertyPath: dryWallMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f454e181f7134d04cb857a12ae9c9d7c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
