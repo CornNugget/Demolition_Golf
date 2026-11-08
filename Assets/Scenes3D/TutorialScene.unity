@@ -359,6 +359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SwitchManager3D
   switches:
   - {fileID: 995377156}
+  - {fileID: 858484791}
   goalBlocker: {fileID: 1821361676}
 --- !u!1 &110232542 stripped
 GameObject:
