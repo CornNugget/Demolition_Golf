@@ -26,9 +26,9 @@ public class LevelCompleteUI : MonoBehaviour
 
     }
     // Update is called once per frame
-    public void QuitGame()
+    public void LevelSelect()
     {
-        Debug.Log("Quit Pressed");
-        Application.Quit();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("StartMenu");
     }
 }
