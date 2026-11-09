@@ -34,12 +34,6 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void QuitGame()
-    {
-        Debug.Log("Quit pressed");
-        Application.Quit();
-    }
-
     [ContextMenu("Reset Progress")]
     void ResetProgress()
     {
