@@ -37,6 +37,9 @@ public class Destructible3D : MonoBehaviour
     [SerializeField]
     [Min(0)]
     private int glassXP = 5;
+    
+    [SerializeField]
+    [Min(0)]
     private int dryWallXP = 10;
 
     [SerializeField]
