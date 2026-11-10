@@ -196,6 +196,8 @@ MonoBehaviour:
   objectiveText: {fileID: 6257430418981642496}
   instructionText: {fileID: 1629684596860351169}
   switchPanel: {fileID: 2764754591996325182}
+  switchHintText: {fileID: 0}
+  hintDuration: 3
   section1Text: Move the mouse and left-click once to aim. Left-click again to shoot.
   section2Text: Some objects require multiple hits to be destroyed.
   section3Text: This indicates the remaining switches to unlock the final gate. Try
@@ -614,7 +616,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1838163527065813237, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1284.6729
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1838163527065813237, guid: 0a1aeb4e8dc22024a9e9d3624b4784c2, type: 3}
       propertyPath: m_LocalRotation.w
