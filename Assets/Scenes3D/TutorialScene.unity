@@ -5874,7 +5874,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3232152953816203525, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_Name
-      value: Switch_3D_03 (1)
+      value: Switch_3D_04
       objectReference: {fileID: 0}
     - target: {fileID: 3232152953816203525, guid: 489c63bdc7d129b46ad042ac798dcecd, type: 3}
       propertyPath: m_IsActive
