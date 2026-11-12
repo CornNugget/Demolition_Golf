@@ -2144,6 +2144,10 @@ PrefabInstance:
       propertyPath: ballController
       value: 
       objectReference: {fileID: 379995545}
+    - target: {fileID: 3426728397692410784, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 3463953883932770408, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
       propertyPath: m_Name
       value: GeneralUI
@@ -2152,6 +2156,10 @@ PrefabInstance:
       propertyPath: levelSystem
       value: 
       objectReference: {fileID: 1964896218}
+    - target: {fileID: 7655263971981118404, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 460
+      objectReference: {fileID: 0}
     - target: {fileID: 7950810013508398634, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
