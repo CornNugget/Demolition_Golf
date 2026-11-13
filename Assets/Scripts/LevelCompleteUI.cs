@@ -21,7 +21,7 @@ public class LevelCompleteUI : MonoBehaviour
         Debug.Log("Saved progress: " + key);
 
         completePanel.SetActive(true);
-        finalTimeText.text = "Your Timer: " + GameTimer.Format(finalTime);
+        finalTimeText.text = "Your Time: " + GameTimer.Format(finalTime);
         Time.timeScale = 0f;
     }
     public void Restart()
