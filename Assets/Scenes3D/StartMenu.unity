@@ -1458,9 +1458,10 @@ MonoBehaviour:
   - {fileID: 943609379}
   levelScenes:
   - TutorialScene
+  - GoalScene
   - Tutorial2Scene
-  - Level0
   - Level1
+  - Level0
   - Level2
   - Level3
 --- !u!114 &1265677336
