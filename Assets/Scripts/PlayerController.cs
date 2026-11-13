@@ -37,6 +37,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Update still runs while timeScale is zero. Ignore the click used on
+        // pause-menu buttons so it cannot also aim or shoot in gameplay.
+        if (PauseMenu.isPaused)
+        {
+            tester = false;
+            return;
+        }
+
         // Get the X and Y mouse movement values
         float xRot = Input.GetAxis("Mouse X") * Time.deltaTime * mouseSensitivityX;
         float yRot = Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSensitivityY;
