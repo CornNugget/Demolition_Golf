@@ -8,13 +8,14 @@ public class PauseMenu : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private string levelSelectScene = "StartMenu";
-    private bool isPaused;
     private bool previousCursorVisible;
     private CursorLockMode previousLock;
 
+    public static bool isPaused { get; private set; }
 
     void Start()
     {
+        isPaused = false;
         pausePanel.SetActive(false);
 
     }
@@ -59,11 +60,13 @@ public class PauseMenu : MonoBehaviour
     }
     public void Restart()
     {
+        isPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void LevelSelect()
     {
+        isPaused = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(levelSelectScene);
     }
