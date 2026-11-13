@@ -37,6 +37,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    public void ToggleFullscreen()
+    {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
     [ContextMenu("Reset Progress")]
     void ResetProgress()
     {
