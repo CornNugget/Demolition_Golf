@@ -10,13 +10,12 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        bool tutorialDone = PlayerPrefs.GetInt("TutorialDone", 0) == 1;
+        bool tutorialDone = IsCompleted(levelScenes[0]);
 
         for (int i = 0; i < levelButtons.Length; i++)
         {
             int levelNumber = i + 1;
             bool isUnlocked = levelNumber == 1 || tutorialDone;
-            string buttonName = i == 0 ? "Tutorial" : "Level " + i;
             
             levelButtons[i].interactable = isUnlocked;
 
@@ -28,6 +27,10 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public bool IsCompleted(string sceneName)
+    {
+        return PlayerPrefs.GetInt("LevelCompleted_" + sceneName, 0) == 1;
+    }
     public void LoadLevel(string sceneName)
     {
         Time.timeScale = 1f;
@@ -37,7 +40,11 @@ public class MainMenu : MonoBehaviour
     [ContextMenu("Reset Progress")]
     void ResetProgress()
     {
-        PlayerPrefs.DeleteKey("TutorialDone");
+        foreach(string scene in levelScenes)
+        {
+            PlayerPrefs.DeleteKey("LevelCompleted_" + scene);
+        }
+        PlayerPrefs.Save();
         Debug.Log("Progress reset");
     }
 }

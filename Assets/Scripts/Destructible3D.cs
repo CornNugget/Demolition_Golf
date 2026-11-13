@@ -53,6 +53,9 @@ public class Destructible3D : MonoBehaviour
     [Header("Destruction")]
     [Tooltip("How much of its speed the ball keeps after breaking this (0-1)")]
     [SerializeField] private float keepSpeed = 0.8f;
+    [Tooltip("How much of its speed the ball keeps bouncing back off a hit that doesn't break this (0-1), so it doesn't stop dead in front of it")]
+    [Range(0f, 1f)]
+    [SerializeField] private float bounceBack = 0.5f;
     [Tooltip("Mass of each broken piece")]
     [SerializeField] private float fragmentMass = 0.5f;
     [Tooltip("Speed given to the pieces, as a fraction of the ball's impact speed")]
@@ -146,8 +149,13 @@ public class Destructible3D : MonoBehaviour
         BallMaterialController ball = collision.collider.GetComponentInParent<BallMaterialController>();
 
         if (ball == null) return;
-        if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
         PlayerController player = ball.GetComponent<PlayerController>();
+        if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular)
+        {
+            // Can't be damaged, but a shot still bounces back off it instead of dropping dead
+            if (player == null || player.powered) BounceBall(ball, collision);
+            return;
+        }
         if (player != null)
         {
             if (!player.powered) return;
@@ -165,6 +173,9 @@ public class Destructible3D : MonoBehaviour
         if (useHealth && health > 0)
         {
             DarkenFromDamage();
+            // Voxel objects lose a small chip at the impact point
+            if (voxels != null) voxels.Chip(ball, collision);
+            BounceBall(ball, collision);
             return;
         }
 
@@ -172,6 +183,19 @@ public class Destructible3D : MonoBehaviour
 
         // Instantiate the particle effect
         //Instantiate(onCollectEffect, transform.position, transform.rotation);
+    }
+
+    // Sends the ball back off the surface it hit, at a share of its incoming speed, so the player can line up the next shot
+    private void BounceBall(BallMaterialController ball, Collision collision)
+    {
+        if (collision.rigidbody == null || bounceBack <= 0f) return;
+
+        Vector3 incoming = ball.LastVelocity;
+        Vector3 normal = collision.GetContact(0).normal;
+        // Make sure the normal faces back toward the ball, whichever way Unity reports it
+        if (Vector3.Dot(normal, incoming) > 0f) normal = -normal;
+
+        collision.rigidbody.linearVelocity = Vector3.Reflect(incoming, normal) * bounceBack;
     }
 
     private void DarkenFromDamage()

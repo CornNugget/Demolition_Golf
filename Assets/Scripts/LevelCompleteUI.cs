@@ -15,6 +15,11 @@ public class LevelCompleteUI : MonoBehaviour
     }
     public void Show(float finalTime)
     {
+        string key = "LevelCompleted_" + SceneManager.GetActiveScene().name;
+        PlayerPrefs.SetInt(key, 1);
+        PlayerPrefs.Save();
+        Debug.Log("Saved progress: " + key);
+
         completePanel.SetActive(true);
         finalTimeText.text = "Your Timer: " + GameTimer.Format(finalTime);
         Time.timeScale = 0f;
