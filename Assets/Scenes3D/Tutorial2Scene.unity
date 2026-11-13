@@ -2333,7 +2333,7 @@ PrefabInstance:
     - target: {fileID: 6080616221658482088, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+      objectReference: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
     - target: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
       propertyPath: m_Name
       value: DestructibleBox_Fracture_wood
@@ -2493,7 +2493,7 @@ PrefabInstance:
     - target: {fileID: 6080616221658482088, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+      objectReference: {fileID: 2100000, guid: f454e181f7134d04cb857a12ae9c9d7c, type: 2}
     - target: {fileID: 7450160189683627826, guid: 549825b51d3260b4fad7bf360bf287ea, type: 3}
       propertyPath: m_Name
       value: DestructibleBox_Fracture_drywall
