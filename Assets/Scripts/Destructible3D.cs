@@ -165,6 +165,8 @@ public class Destructible3D : MonoBehaviour
         if (useHealth && health > 0)
         {
             DarkenFromDamage();
+            // Voxel objects lose a small chip at the impact point
+            if (voxels != null) voxels.Chip(ball, collision);
             return;
         }
 

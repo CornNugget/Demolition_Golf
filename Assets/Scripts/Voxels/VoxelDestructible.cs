@@ -25,6 +25,14 @@ public class VoxelDestructible : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float keepSpeed = 0.8f;
 
+    [Header("Chipping (hits before health reaches 0)")]
+    [Tooltip("Radius of the chip a Regular ball knocks off on a hit that doesn't break the object, in metres; Stone and Diamond balls chip more. 0 = no chipping")]
+    [Min(0f)]
+    [SerializeField] private float chipSize = 0.4f;
+    [Tooltip("Most of the object (0-1) that chips can remove before it breaks, so it stays recognisable")]
+    [Range(0f, 1f)]
+    [SerializeField] private float maxChipped = 0.15f;
+
     [Header("Breaking Apart")]
     [Tooltip("When less than this fraction of the object is left standing, the rest crumbles and the object is gone (uncovers switches)")]
     [Range(0f, 1f)]
@@ -141,6 +149,28 @@ public class VoxelDestructible : MonoBehaviour
 
         // Physics already bounced the ball, so give its speed back to carry it through the hole
         if (collision.rigidbody != null) collision.rigidbody.linearVelocity = incoming * keepSpeed;
+    }
+
+    // Called by Destructible3D on a hit that lowers health without breaking the object:
+    // knocks a small chip off at the impact point to show the damage. No XP granted
+    public void Chip(BallMaterialController ball, Collision collision)
+    {
+        if (isChunk || crumbled || grid == null || chipSize <= 0f) return;
+        if (startCount - grid.SolidCount >= startCount * maxChipped) return;
+
+        // At least one voxel across, so even a small chip is visible
+        float minRadius = Mathf.Max(grid.VoxelSize.x, Mathf.Max(grid.VoxelSize.y, grid.VoxelSize.z));
+        float radius = Mathf.Max(chipSize * Mathf.Sqrt(ball.Damage), minRadius);
+        Vector3 hitPoint = collision.GetContact(0).point;
+        Vector3 incoming = ball.LastVelocity;
+
+        int before = grid.SolidCount;
+        // Centred on the surface, so it takes a bite out of the face rather than punching inward
+        Carve(hitPoint, radius, hitPoint, incoming);
+        if (grid.SolidCount == before) return;
+
+        BreakOffLoosePieces(incoming * 0.2f);
+        Rebuild();
     }
 
     private float HoleRadius(ObstacleMaterialType type)
