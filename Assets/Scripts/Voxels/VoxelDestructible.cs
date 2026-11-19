@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// On start the object is rebuilt out of voxels. Destructible3D on the same object handles every hit:
+// The object can become voxels on start or only when its health runs out.
+// Destructible3D on the same object handles every hit:
 // health, the ball rules and XP. Once its health is gone, each hit it passes on carves a hole here,
 // and any part that is no longer connected to the ground breaks off and falls as its own chunk.
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class VoxelDestructible : MonoBehaviour
 {
+    [Header("Model Appearance")]
+    [Tooltip("Keep the original model and its UVs until Destructible3D reports that health has run out. Small chips are skipped before that point.")]
+    [SerializeField] private bool voxelizeOnBreak = false;
+
+    [Tooltip("Optional material for the voxel mesh and debris. For atlas-textured models, use a separate wood or solid-color material here.")]
+    [SerializeField] private Material voxelMaterial;
+
     [Header("Voxels")]
     [Tooltip("Edge length of one voxel in metres")]
     [SerializeField] private float voxelSize = 0.25f;
@@ -72,11 +80,23 @@ public class VoxelDestructible : MonoBehaviour
         rules = GetComponent<Destructible3D>();
         meshFilter = GetComponent<MeshFilter>();
         material = GetComponent<MeshRenderer>().sharedMaterial;
-        BuildFromShape();
+
+
+        if (voxelizeOnBreak == false)
+        {
+            BuildFromShape();
+        }
     }
 
     private void BuildFromShape()
     {
+ 
+        if (voxelMaterial != null)
+        {
+            material = voxelMaterial;
+            GetComponent<MeshRenderer>().sharedMaterial = voxelMaterial;
+        }
+
         Mesh source = meshFilter.sharedMesh;
         Vector3 size = Vector3.Scale(source.bounds.size, transform.localScale);
         Vector3 center = Vector3.Scale(source.bounds.center, transform.localScale);
@@ -129,10 +149,16 @@ public class VoxelDestructible : MonoBehaviour
     // Destructible3D has already checked the ball rules and paid the XP.
     public void TakeHit(BallMaterialController ball, Collision collision)
     {
-        if (isChunk || crumbled || grid == null) return;
+        if (isChunk || crumbled) return;
+
+        if (grid == null)
+        {
+            BuildFromShape();
+        }
 
         ObstacleMaterialType type = rules != null ? rules.ObstacleType : ObstacleMaterialType.Wood;
         Vector3 incoming = ball.LastVelocity;
+
         float speedFactor = Mathf.Clamp(incoming.magnitude / fullHoleSpeed, 0.5f, 1.5f);
         float radius = Mathf.Min(HoleRadius(type) * Mathf.Sqrt(ball.Damage) * speedFactor, maxHoleRadius);
         Vector3 hitPoint = collision.GetContact(0).point;
