@@ -1,0 +1,289 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7021174084383323016
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4362
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.6554
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.693
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.285
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      propertyPath: m_Name
+      value: task_chair
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4770010723407251209}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2951341319098847412}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2803926858140926276}
+    - targetCorrespondingSourceObject: {fileID: 7238751006011672158, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4152498478287314036}
+    - targetCorrespondingSourceObject: {fileID: 7238751006011672158, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3506055842649893644}
+    - targetCorrespondingSourceObject: {fileID: 7238751006011672158, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4310660488321120274}
+  m_SourcePrefab: {fileID: 100100000, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+--- !u!1 &361709702059095510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7238751006011672158, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+  m_PrefabInstance: {fileID: 7021174084383323016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4152498478287314036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361709702059095510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
+  voxelizeOnBreak: 1
+  voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  voxelSize: 0.25
+  glassHoleRadius: 1.2
+  dryWallHoleRadius: 0.95
+  woodHoleRadius: 0.7
+  steelHoleRadius: 0.45
+  maxHoleRadius: 2.5
+  fullHoleSpeed: 5
+  keepSpeed: 0.8
+  chipSize: 0.4
+  maxChipped: 0.15
+  crumbleBelow: 0.2
+  minChunkVoxels: 8
+  massPerVoxel: 0.05
+  debrisKept: 0.35
+  maxDebrisPerHit: 40
+  burstSpeed: 3
+  debrisLifetime: 13
+--- !u!65 &3506055842649893644
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361709702059095510}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.55, y: 0.7413325, z: 0.7441357}
+  m_Center: {x: 0, y: 0.7506662, z: -0.14206782}
+--- !u!114 &4310660488321120274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361709702059095510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994eb0e7d7ece0c4dbb8be1b6d3291ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destructible3D
+  obstacleType: 2
+  obstacleRenderer: {fileID: 8733967175436541188}
+  glassMaterial: {fileID: 0}
+  dryWallMaterial: {fileID: 0}
+  woodMaterial: {fileID: 0}
+  steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  keepOriginalMaterials: 1
+  useHealth: 1
+  glassHealth: 1
+  dryWallHealth: 2
+  woodHealth: 3
+  steelHealth: 15
+  glassXP: 5
+  dryWallXP: 10
+  woodXP: 25
+  steelXP: 50
+  keepSpeed: 0.8
+  bounceBack: 0.5
+  fragmentMass: 0.5
+  burstStrength: 0.6
+  burstLift: 0.3
+  piecesPerUnit: 0.5
+  maxPieces: 60
+  maxPieceSize: 0.75
+  piecesKept: 0.5
+  debrisLifetime: 13
+  insideColor: {r: 0, g: 0, b: 0, a: 1}
+  darkeningPerHit: 15
+--- !u!1 &7904188365205245657 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+  m_PrefabInstance: {fileID: 7021174084383323016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4770010723407251209
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904188365205245657}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.59270513, y: 0.39165062, z: 0.62181425}
+  m_Center: {x: -0.028647438, y: 0.20417467, z: 0.019409835}
+--- !u!114 &2951341319098847412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904188365205245657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994eb0e7d7ece0c4dbb8be1b6d3291ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destructible3D
+  obstacleType: 2
+  obstacleRenderer: {fileID: 8552807385406254860}
+  glassMaterial: {fileID: 0}
+  dryWallMaterial: {fileID: 0}
+  woodMaterial: {fileID: 0}
+  steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  keepOriginalMaterials: 1
+  useHealth: 1
+  glassHealth: 1
+  dryWallHealth: 2
+  woodHealth: 3
+  steelHealth: 15
+  glassXP: 5
+  dryWallXP: 10
+  woodXP: 25
+  steelXP: 50
+  keepSpeed: 0.8
+  bounceBack: 0.5
+  fragmentMass: 0.5
+  burstStrength: 0.6
+  burstLift: 0.3
+  piecesPerUnit: 0.5
+  maxPieces: 60
+  maxPieceSize: 0.75
+  piecesKept: 0.5
+  debrisLifetime: 13
+  insideColor: {r: 0, g: 0, b: 0, a: 1}
+  darkeningPerHit: 15
+--- !u!114 &2803926858140926276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904188365205245657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
+  voxelizeOnBreak: 1
+  voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  voxelSize: 0.25
+  glassHoleRadius: 1.2
+  dryWallHoleRadius: 0.95
+  woodHoleRadius: 0.7
+  steelHoleRadius: 0.45
+  maxHoleRadius: 2.5
+  fullHoleSpeed: 5
+  keepSpeed: 0.8
+  chipSize: 0.4
+  maxChipped: 0.15
+  crumbleBelow: 0.2
+  minChunkVoxels: 8
+  massPerVoxel: 0.05
+  debrisKept: 0.35
+  maxDebrisPerHit: 40
+  burstSpeed: 3
+  debrisLifetime: 13
+--- !u!23 &8552807385406254860 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+  m_PrefabInstance: {fileID: 7021174084383323016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8733967175436541188 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1748927718349188748, guid: f6e9bf87c75f1e1428d3e8e84add9cec, type: 3}
+  m_PrefabInstance: {fileID: 7021174084383323016}
+  m_PrefabAsset: {fileID: 0}
