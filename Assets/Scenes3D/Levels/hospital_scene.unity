@@ -442,7 +442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -1494,7 +1496,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -2327,7 +2331,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -4140,7 +4146,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -4401,7 +4409,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -4592,7 +4602,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -5302,7 +5314,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 3e7371b6ae245f045921cdc16131fa87, type: 2}
+  shapeSource: 0
   voxelSize: 0.1
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -5540,7 +5554,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: fd3b1b8b27307744aab330af412700a9, type: 2}
+  shapeSource: 1
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
@@ -5873,7 +5889,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  shapeSource: 0
   voxelSize: 0.25
+  modelDetail: 16
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
   woodHoleRadius: 0.7
