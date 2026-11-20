@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
+  shapeSource: 0
   voxelSize: 0.25
   glassHoleRadius: 1.2
   dryWallHoleRadius: 0.95
