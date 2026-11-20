@@ -97,6 +97,22 @@ public class Destructible3D : MonoBehaviour
     // True from the hit that takes HP to 0, even while voxel rubble is still standing
     public bool IsBroken => isDestroyed;
 
+#if UNITY_EDITOR
+    // Runs in the editor when the component is added (or Reset from its menu):
+    // fills in the four obstacle materials from Assets/Materials/Obstacle Materials
+    private void Reset()
+    {
+        glassMaterial = LoadMaterial("fd3b1b8b27307744aab330af412700a9");   // GlassMaterial
+        dryWallMaterial = LoadMaterial("f454e181f7134d04cb857a12ae9c9d7c"); // DryWallMaterial
+        woodMaterial = LoadMaterial("3e7371b6ae245f045921cdc16131fa87");    // WoodMaterial
+        steelMaterial = LoadMaterial("80c782f3832c8164f880d61a534299c3");   // SteelMaterial
+    }
+
+    // By GUID rather than path, so it still works if the materials are moved or renamed
+    private static Material LoadMaterial(string guid) =>
+        UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(UnityEditor.AssetDatabase.GUIDToAssetPath(guid));
+#endif
+
     private void Awake()
     {
 

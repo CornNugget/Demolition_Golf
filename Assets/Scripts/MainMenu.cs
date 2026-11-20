@@ -1,37 +1,43 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private Button[] levelButtons;   // Level 1, 2, 3... in order
-    [SerializeField] private string[] levelScenes;    // the scene name for each level, same order
+    [SerializeField] private Button[] levelButtons;
+    [SerializeField] private string[] levelScenes;
 
-    void Start()
+    private void Start()
     {
-        bool tutorialDone = IsCompleted(levelScenes[0]);
+        RefreshLevelButtons();
+    }
 
-        for (int i = 0; i < levelButtons.Length; i++)
+    private void RefreshLevelButtons()
+    {
+        // StartMenu only uses the navigation methods and has no level arrays.
+        if (levelButtons == null || levelScenes == null)
+            return;
+
+        int count = Mathf.Min(levelButtons.Length, levelScenes.Length);
+
+        for (int i = 0; i < count; i++)
         {
-            int levelNumber = i + 1;
-            bool isUnlocked = levelNumber == 1 || tutorialDone;
-            
-            levelButtons[i].interactable = isUnlocked;
+            if (levelButtons[i] == null)
+                continue;
 
-            TMP_Text label = levelButtons[i].GetComponentInChildren<TMP_Text>();
-            label.text = isUnlocked ? "Level " + levelNumber : "Level " + levelNumber + " - Locked";
-
-            string sceneName = levelScenes[i];
-            levelButtons[i].onClick.AddListener(() => LoadLevel(sceneName));
+            // Level 1 is always available. Later levels require
+            // completion of the immediately preceding scene.
+            levelButtons[i].interactable =
+                i == 0 || IsCompleted(levelScenes[i - 1]);
         }
     }
 
-    public bool IsCompleted(string sceneName)
+    private bool IsCompleted(string sceneName)
     {
         return PlayerPrefs.GetInt("LevelCompleted_" + sceneName, 0) == 1;
     }
-    public void LoadLevel(string sceneName)
+
+    public void LoadScene(string sceneName)
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
@@ -43,13 +49,15 @@ public class MainMenu : MonoBehaviour
     }
 
     [ContextMenu("Reset Progress")]
-    void ResetProgress()
+    public void ResetProgress()
     {
-        foreach(string scene in levelScenes)
+        foreach (string sceneName in levelScenes)
         {
-            PlayerPrefs.DeleteKey("LevelCompleted_" + scene);
+            PlayerPrefs.DeleteKey("LevelCompleted_" + sceneName);
         }
+
         PlayerPrefs.Save();
-        Debug.Log("Progress reset");
+        RefreshLevelButtons();
+        Debug.Log("Level progress reset.");
     }
 }

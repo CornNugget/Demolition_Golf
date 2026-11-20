@@ -1,5 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using VoxelSystem;
+
+public enum VoxelShapeSource
+{
+    Primitive, // fill the object's bounding box (or a cylinder), as the Destructible prefabs do
+    Model,     // voxelize the actual meshes of an imported art asset
+}
 
 // The object can become voxels on start or only when its health runs out.
 // Destructible3D on the same object handles every hit:
@@ -16,11 +24,17 @@ public class VoxelDestructible : MonoBehaviour
     [SerializeField] private Material voxelMaterial;
 
     [Header("Voxels")]
-    [Tooltip("Edge length of one voxel in metres")]
+    [Tooltip("Primitive fills the object's box or cylinder shape. Model voxelizes the meshes of an imported art asset (child meshes included); tick Read/Write Enabled in the model's import settings")]
+    [SerializeField] private VoxelShapeSource shapeSource = VoxelShapeSource.Model;
+    [Tooltip("Primitive only: edge length of one voxel in metres")]
     [SerializeField] private float voxelSize = 0.25f;
+    [Tooltip("Model only: voxels along the model's longest side, so every model gets the same detail whatever its size. Higher looks smoother but loads slower in WebGL")]
+    [Range(4, 48)]
+    [SerializeField] private int modelDetail = 16;
 
     [Header("Carving")]
-    [Tooltip("Hole radius a regular ball carves in each material, in metres; stone and diamond balls carve bigger holes")]
+    [Tooltip("Hole radius a regular ball carves in each material, in metres; stone and diamond balls carve bigger holes. " +
+             "Tuned for primitives about 3 m across: on a Model the holes and chips shrink or grow with its size")]
     [SerializeField] private float glassHoleRadius = 1.2f;
     [SerializeField] private float dryWallHoleRadius = 0.95f;
     [SerializeField] private float woodHoleRadius = 0.7f;
@@ -61,7 +75,12 @@ public class VoxelDestructible : MonoBehaviour
     [Min(0.1f)]
     [SerializeField] private float debrisLifetime = 13f;
 
+    // Size of object the carving and chip sizes above are tuned for, in metres
+    private const float TunedSize = 3f;
+
     private Destructible3D rules;
+    // Multiplies the carving and chip sizes: 1 for primitives, the model's size / TunedSize for models
+    private float sizeScale = 1f;
     private VoxelGrid grid;
     private MeshFilter meshFilter;
     // Solid boxes covering the voxels. A MeshCollider would only be the visible surface,
@@ -71,6 +90,15 @@ public class VoxelDestructible : MonoBehaviour
     private int startCount;
     private bool isChunk;
     private bool crumbled;
+
+#if UNITY_EDITOR
+    // Runs in the editor when the component is added: it needs a Destructible3D for health, the ball rules
+    // and XP, so add one if it's missing. Not a RequireComponent, because broken-off chunks must not get one
+    private void Reset()
+    {
+        if (GetComponent<Destructible3D>() == null) UnityEditor.Undo.AddComponent<Destructible3D>(gameObject);
+    }
+#endif
 
     private void Start()
     {
@@ -97,6 +125,29 @@ public class VoxelDestructible : MonoBehaviour
             GetComponent<MeshRenderer>().sharedMaterial = voxelMaterial;
         }
 
+        if (shapeSource == VoxelShapeSource.Model)
+        {
+            if (!FillFromModel()) return;
+        }
+        else
+        {
+            FillPrimitive();
+        }
+        startCount = grid.SolidCount;
+
+        // The grid now carries the object's size, so the scale goes back to 1
+        transform.localScale = Vector3.one;
+        foreach (Collider old in GetComponents<Collider>()) Destroy(old);
+
+        // Ensures standing object stays where it was placed; only broken-off chunks move
+        Rigidbody body = GetComponent<Rigidbody>();
+        if (body != null) body.isKinematic = true;
+
+        Rebuild();
+    }
+
+    private void FillPrimitive()
+    {
         Mesh source = meshFilter.sharedMesh;
         Vector3 size = Vector3.Scale(source.bounds.size, transform.localScale);
         Vector3 center = Vector3.Scale(source.bounds.center, transform.localScale);
@@ -116,17 +167,101 @@ public class VoxelDestructible : MonoBehaviour
             float dz = (z + 0.5f) / nz - 0.5f;
             if (!round || dx * dx + dz * dz <= 0.25f) grid.Set(x, y, z, true);
         }
-        startCount = grid.SolidCount;
+    }
 
-        // The grid now carries the object's size, so the scale goes back to 1
-        transform.localScale = Vector3.one;
-        foreach (Collider old in GetComponents<Collider>()) Destroy(old);
+    // Voxelizes every mesh on this object and its children: marks each voxel the surface passes through
+    // (triangle-box test from unity-voxel, Assets/ThirdParty/unity-voxel), fills whatever is enclosed,
+    // then hides the original art. Returns false if nothing could be voxelized.
+    private bool FillFromModel()
+    {
+        // Put every part of the model into this object's own space, keeping its current scale
+        Matrix4x4 toLocal = Matrix4x4.Scale(transform.localScale) * transform.worldToLocalMatrix;
+        var parts = new List<CombineInstance>();
+        foreach (MeshFilter part in GetComponentsInChildren<MeshFilter>())
+        {
+            Mesh mesh = part.sharedMesh;
+            if (mesh == null) continue;
+            if (!mesh.isReadable)
+            {
+                Debug.LogError($"{name}: can't voxelize '{mesh.name}'. Tick Read/Write Enabled in the model's import settings.", this);
+                continue;
+            }
+            for (int sub = 0; sub < mesh.subMeshCount; sub++)
+            {
+                parts.Add(new CombineInstance { mesh = mesh, subMeshIndex = sub, transform = toLocal * part.transform.localToWorldMatrix });
+            }
+        }
+        if (parts.Count == 0)
+        {
+            Debug.LogWarning($"{name}: Shape Source is Model, but no readable meshes were found on it or its children.", this);
+            return false;
+        }
 
-        // The standing object stays where it was placed; only broken-off chunks move
-        Rigidbody body = GetComponent<Rigidbody>();
-        if (body != null) body.isKinematic = true;
+        var combined = new Mesh { indexFormat = IndexFormat.UInt32 };
+        combined.CombineMeshes(parts.ToArray(), true, true);
+        Bounds bounds = combined.bounds;
+        Vector3[] vertices = combined.vertices;
+        int[] triangles = combined.triangles;
+        Destroy(combined);
 
-        Rebuild();
+        // Cube voxels sized so the longest side gets Model Detail of them, with the grid centred on the model
+        Vector3 size = bounds.size;
+        float longest = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
+        float unit = longest / modelDetail;
+        int nx = Mathf.Max(1, Mathf.CeilToInt(size.x / unit - 0.001f));
+        int ny = Mathf.Max(1, Mathf.CeilToInt(size.y / unit - 0.001f));
+        int nz = Mathf.Max(1, Mathf.CeilToInt(size.z / unit - 0.001f));
+        grid = new VoxelGrid(nx, ny, nz, Vector3.one * unit, bounds.center - new Vector3(nx, ny, nz) * (unit / 2f));
+        sizeScale = longest / TunedSize;
+
+        // Surface: every voxel a triangle passes through, using the unity-voxel triangle-box test
+        var cellBox = new Bounds(Vector3.zero, Vector3.one * unit);
+        Vector3Int last = new Vector3Int(nx - 1, ny - 1, nz - 1);
+        for (int i = 0; i < triangles.Length; i += 3)
+        {
+            var tri = new CPUVoxelizer.Triangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]], Vector3.forward);
+            Vector3Int min = Vector3Int.Min(Vector3Int.Max(grid.LocalToCell(tri.bounds.min), Vector3Int.zero), last);
+            Vector3Int max = Vector3Int.Min(Vector3Int.Max(grid.LocalToCell(tri.bounds.max), Vector3Int.zero), last);
+            for (int z = min.z; z <= max.z; z++)
+            for (int y = min.y; y <= max.y; y++)
+            for (int x = min.x; x <= max.x; x++)
+            {
+                var cell = new Vector3Int(x, y, z);
+                if (grid.Get(cell)) continue;
+                cellBox.center = grid.LocalCenter(cell);
+                if (CPUVoxelizer.Intersects(tri, cellBox)) grid.Set(cell, true);
+            }
+        }
+        // Inside: whatever the outside can't reach. Works for models made of overlapping or open parts
+        grid.FillEnclosed();
+
+        if (grid.SolidCount == 0)
+        {
+            Debug.LogWarning($"{name}: the model produced no voxels.", this);
+            return false;
+        }
+
+        // The voxel mesh replaces the art: hide the model's own renderers and colliders
+        MeshRenderer ownRenderer = GetComponent<MeshRenderer>();
+        foreach (Renderer art in GetComponentsInChildren<Renderer>())
+        {
+            if (art != ownRenderer) art.enabled = false;
+        }
+        foreach (Collider artCollider in GetComponentsInChildren<Collider>())
+        {
+            if (artCollider.gameObject != gameObject) artCollider.enabled = false;
+        }
+
+        // Without a Destructible3D to pick a material, borrow the model's own
+        if (material == null)
+        {
+            foreach (Renderer art in GetComponentsInChildren<Renderer>(true))
+            {
+                if (art != ownRenderer && art.sharedMaterial != null) { material = art.sharedMaterial; break; }
+            }
+            ownRenderer.sharedMaterial = material;
+        }
+        return true;
     }
 
     private void Rebuild()
@@ -160,7 +295,9 @@ public class VoxelDestructible : MonoBehaviour
         Vector3 incoming = ball.LastVelocity;
 
         float speedFactor = Mathf.Clamp(incoming.magnitude / fullHoleSpeed, 0.5f, 1.5f);
-        float radius = Mathf.Min(HoleRadius(type) * Mathf.Sqrt(ball.Damage) * speedFactor, maxHoleRadius);
+        float radius = Mathf.Min(HoleRadius(type) * Mathf.Sqrt(ball.Damage) * speedFactor, maxHoleRadius) * sizeScale;
+        // On a small model the scaled hole could miss every voxel; always take at least one
+        if (shapeSource == VoxelShapeSource.Model) radius = Mathf.Max(radius, LargestVoxelSide);
         Vector3 hitPoint = collision.GetContact(0).point;
 
         int before = grid.SolidCount;
@@ -185,8 +322,7 @@ public class VoxelDestructible : MonoBehaviour
         if (startCount - grid.SolidCount >= startCount * maxChipped) return;
 
         // At least one voxel across, so even a small chip is visible
-        float minRadius = Mathf.Max(grid.VoxelSize.x, Mathf.Max(grid.VoxelSize.y, grid.VoxelSize.z));
-        float radius = Mathf.Max(chipSize * Mathf.Sqrt(ball.Damage), minRadius);
+        float radius = Mathf.Max(chipSize * Mathf.Sqrt(ball.Damage) * sizeScale, LargestVoxelSide);
         Vector3 hitPoint = collision.GetContact(0).point;
         Vector3 incoming = ball.LastVelocity;
 
@@ -198,6 +334,8 @@ public class VoxelDestructible : MonoBehaviour
         BreakOffLoosePieces(incoming * 0.2f);
         Rebuild();
     }
+
+    private float LargestVoxelSide => Mathf.Max(grid.VoxelSize.x, Mathf.Max(grid.VoxelSize.y, grid.VoxelSize.z));
 
     private float HoleRadius(ObstacleMaterialType type)
     {
