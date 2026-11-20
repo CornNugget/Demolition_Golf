@@ -4018,11 +4018,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6870998339852366339, guid: 1ad6dbf55418c3a449eedabbed8e45a9, type: 3}
   m_PrefabInstance: {fileID: 3358545074365215795}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1409185400 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5731959301051691231, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-  m_PrefabInstance: {fileID: 1766260373}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1410103158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4576007744785393914, guid: 0b84ad4c8cecbac40b4cb0a86cad914f, type: 3}
@@ -5160,14 +5155,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 391709912734571823, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-      propertyPath: m_RenderPostProcessing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846808909803449337, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5731959301051691231, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.25
@@ -5208,10 +5195,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6313184562089350464, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-      propertyPath: near clip plane
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 8242145188070536373, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -5219,10 +5202,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1846808909803449337, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2100184707}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
 --- !u!4 &1816058143 stripped
 Transform:
@@ -6184,31 +6164,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &2100184702 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1846808909803449337, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
-  m_PrefabInstance: {fileID: 1766260373}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2100184707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100184702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ee98f137501d204cbcdf2850c280168, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraWallAvoidance
-  player: {fileID: 1409185400}
-  pivotOffset: {x: 0, y: 0.2, z: 0}
-  obstacleLayers:
-    serializedVersion: 2
-    m_Bits: 51
-  checkRadius: 0.2
-  wallPadding: 0.05
-  returnSpeed: 4
 --- !u!1001 &2112392855
 PrefabInstance:
   m_ObjectHideFlags: 0
