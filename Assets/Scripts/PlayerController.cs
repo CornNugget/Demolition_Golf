@@ -32,7 +32,14 @@ public class PlayerController : MonoBehaviour
         t = GetComponent<Transform>();
         if (rb == null) Debug.LogWarning("PlayerController needs a Rigidbody.");
         // Keeps the cursor hidden and locked to the center
-        Cursor.lockState = CursorLockMode.Locked;
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            WebGLInput.stickyCursorLock = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        #else
+            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.visible = false;
+        #endif
     }
 
     private void Update()
@@ -74,9 +81,9 @@ public class PlayerController : MonoBehaviour
         Vector3 angles = t.eulerAngles;
         angles.x -= yRot;
         // Limit the up and down movement
-        if(angles.x > 45.1f && angles.x < 360 - 45.1f)
+        if (angles.x > 45.1f && angles.x < 360 - 45.1f)
         {
-            if(yRot < 0)
+            if (yRot < 0)
             {
                 angles.x = 45;
             }
@@ -126,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
         if (aiming)
         {
-            trajectory.Draw(transform.position, t.forward*shootForce);
+            trajectory.Draw(transform.position, t.forward * shootForce);
         }
         else
         {

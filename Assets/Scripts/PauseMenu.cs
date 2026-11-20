@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private string levelSelectScene = "StartMenu";
     private bool previousCursorVisible;
     private CursorLockMode previousLock;
+    private bool wasFullscreen;
 
     public static bool isPaused { get; private set; }
 
@@ -17,14 +18,23 @@ public class PauseMenu : MonoBehaviour
     {
         isPaused = false;
         pausePanel.SetActive(false);
-
+        wasFullscreen = Screen.fullScreen;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        if(Keyboard.current == null)return;
+        bool exitedFullscreen = wasFullscreen && !Screen.fullScreen;
+        wasFullscreen = Screen.fullScreen;
+        
+        if (exitedFullscreen && !isPaused)
+        {
+            Pause();
+            return;
+        }
+
+        if(Keyboard.current == null) return;
         if(Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame)
         {
             TogglePause();
