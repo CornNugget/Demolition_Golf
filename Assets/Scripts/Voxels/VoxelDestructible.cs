@@ -352,20 +352,12 @@ public class VoxelDestructible : MonoBehaviour
         List<List<Vector3Int>> islands = grid.FindIslands();
         if (islands.Count == 0) return;
 
-        // Pieces touching the bottom layer rest on the ground and stay; if none do, the biggest piece stays
+        // Pieces touching the bottom layer rest on the ground and stay; everything else falls.
+        // If the whole bottom has been knocked out, nothing is holding the object up, so all of it falls
         var staying = new HashSet<List<Vector3Int>>();
         foreach (List<Vector3Int> island in islands)
         {
             if (island.Exists(cell => cell.y == 0)) staying.Add(island);
-        }
-        if (staying.Count == 0)
-        {
-            List<Vector3Int> biggest = islands[0];
-            foreach (List<Vector3Int> island in islands)
-            {
-                if (island.Count > biggest.Count) biggest = island;
-            }
-            staying.Add(biggest);
         }
 
         int debris = 0;
