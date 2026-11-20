@@ -89,6 +89,7 @@ public class VoxelDestructible : MonoBehaviour
     private Material material;
     private int startCount;
     private bool isChunk;
+    private ObstacleMaterialType chunkType = ObstacleMaterialType.Wood;
     private bool crumbled;
 
 #if UNITY_EDITOR
@@ -284,14 +285,14 @@ public class VoxelDestructible : MonoBehaviour
     // Destructible3D has already checked the ball rules and paid the XP.
     public void TakeHit(BallMaterialController ball, Collision collision)
     {
-        if (isChunk || crumbled) return;
+        if (crumbled) return;
 
         if (grid == null)
         {
             BuildFromShape();
         }
 
-        ObstacleMaterialType type = rules != null ? rules.ObstacleType : ObstacleMaterialType.Wood;
+        ObstacleMaterialType type = ObstacleType;
         Vector3 incoming = ball.LastVelocity;
 
         float speedFactor = Mathf.Clamp(incoming.magnitude / fullHoleSpeed, 0.5f, 1.5f);
@@ -308,10 +309,34 @@ public class VoxelDestructible : MonoBehaviour
         BreakOffLoosePieces(incoming);
 
         if (grid.SolidCount < startCount * crumbleBelow) Crumble(incoming);
-        else Rebuild();
+        else
+        {
+            Rebuild();
+            Rigidbody body = GetComponent<Rigidbody>();
+            if (isChunk && body != null) body.mass = Mathf.Max(0.2f, grid.SolidCount * massPerVoxel);
+        }
 
         // Physics already bounced the ball, so give its speed back to carry it through the hole
         if (collision.rigidbody != null) collision.rigidbody.linearVelocity = incoming * keepSpeed;
+    }
+
+    // A fallen chunk has no Destructible3D, so it checks the ball rules itself. Like the broken object it
+    // came from, it has no health and pays no XP: every powered hit carves it, and steel needs Stone or Diamond
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!isChunk || crumbled) return;
+
+        BallMaterialController ball = collision.collider.GetComponentInParent<BallMaterialController>();
+        if (ball == null) return;
+        if (ObstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular) return;
+
+        PlayerController player = ball.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            if (!player.powered) return;
+            player.powered = false;
+        }
+        TakeHit(ball, collision);
     }
 
     // Called by Destructible3D on a hit that lowers health without breaking the object:
@@ -334,6 +359,9 @@ public class VoxelDestructible : MonoBehaviour
         BreakOffLoosePieces(incoming * 0.2f);
         Rebuild();
     }
+
+    // Chunks have no Destructible3D, so they remember the material of the object they broke off from
+    private ObstacleMaterialType ObstacleType => rules != null ? rules.ObstacleType : chunkType;
 
     private float LargestVoxelSide => Mathf.Max(grid.VoxelSize.x, Mathf.Max(grid.VoxelSize.y, grid.VoxelSize.z));
 
@@ -378,12 +406,25 @@ public class VoxelDestructible : MonoBehaviour
         List<List<Vector3Int>> islands = grid.FindIslands();
         if (islands.Count == 0) return;
 
-        // Pieces touching the bottom layer rest on the ground and stay; everything else falls.
-        // If the whole bottom has been knocked out, nothing is holding the object up, so all of it falls
         var staying = new HashSet<List<Vector3Int>>();
-        foreach (List<Vector3Int> island in islands)
+        if (isChunk)
         {
-            if (island.Exists(cell => cell.y == 0)) staying.Add(island);
+            // A fallen chunk isn't standing on anything: its biggest piece stays as the chunk, the rest split off
+            List<Vector3Int> biggest = islands[0];
+            foreach (List<Vector3Int> island in islands)
+            {
+                if (island.Count > biggest.Count) biggest = island;
+            }
+            staying.Add(biggest);
+        }
+        else
+        {
+            // Pieces touching the bottom layer rest on the ground and stay; everything else falls.
+            // If the whole bottom has been knocked out, nothing is holding the object up, so all of it falls
+            foreach (List<Vector3Int> island in islands)
+            {
+                if (island.Exists(cell => cell.y == 0)) staying.Add(island);
+            }
         }
 
         int debris = 0;
@@ -425,17 +466,24 @@ public class VoxelDestructible : MonoBehaviour
         chunk.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
         VoxelDestructible piece = chunk.AddComponent<VoxelDestructible>();
+        // Same Inspector settings (hole sizes, debris and so on) as the object it broke off from
+        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(this), piece);
         piece.isChunk = true;
         piece.grid = chunkGrid;
+        piece.startCount = island.Count;
+        piece.chunkType = ObstacleType;
+        piece.sizeScale = sizeScale;
         piece.meshFilter = chunk.GetComponent<MeshFilter>();
         piece.material = material;
         chunk.GetComponent<MeshRenderer>().sharedMaterial = material;
         // Builds the chunk's mesh and its box colliders
         piece.Rebuild();
 
+        // A chunk breaking off a falling chunk keeps falling with it
+        Rigidbody own = GetComponent<Rigidbody>();
         Rigidbody body = chunk.AddComponent<Rigidbody>();
         body.mass = Mathf.Max(0.2f, island.Count * massPerVoxel);
-        body.linearVelocity = incoming * 0.25f;
+        body.linearVelocity = (isChunk && own != null ? own.linearVelocity : Vector3.zero) + incoming * 0.25f;
 
         Destroy(chunk, debrisLifetime);
     }
