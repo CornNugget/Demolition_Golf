@@ -61,7 +61,7 @@ public class CameraWallAvoidance : MonoBehaviour
 
         Vector3 direction = cameraOffset / desiredDistance;
 
-        // 球形检测也覆盖近裁剪面的尺寸，减少中心没穿墙、画面边缘却穿墙的情况。
+        // Cover the near-plane corners to reduce clipping at the edges of the view.
         float nearHeight = viewCamera.nearClipPlane *
             Mathf.Tan(viewCamera.fieldOfView * Mathf.Deg2Rad * 0.5f);
         float nearWidth = nearHeight * viewCamera.aspect;
@@ -76,7 +76,7 @@ public class CameraWallAvoidance : MonoBehaviour
 
         foreach (RaycastHit hit in hits)
         {
-            // 忽略玩家自身的碰撞体，但检测墙、门和其他实体障碍物。
+            // Ignore the player's colliders while checking solid obstacles.
             if (hit.collider.transform.IsChildOf(player))
             {
                 continue;
@@ -88,7 +88,7 @@ public class CameraWallAvoidance : MonoBehaviour
 
         if (safeDistance < currentDistance)
         {
-            // 遇墙立即拉近，不能缓慢移动，否则过渡时仍可能穿墙。
+            // Move inward immediately to avoid clipping during the transition.
             currentDistance = safeDistance;
         }
         else
@@ -97,7 +97,7 @@ public class CameraWallAvoidance : MonoBehaviour
                 currentDistance, safeDistance, returnSpeed * Time.deltaTime);
         }
 
-        // 保持相机原来的朝向，只调整它与玩家之间的距离。
+        // Preserve the camera's orientation and adjust only its distance.
         transform.position = pivot + direction * currentDistance;
     }
 }
