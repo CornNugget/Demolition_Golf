@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6399625977522001384
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.0134988
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8446279
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.149414
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.0522
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.69
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 25.3063
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7024794
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7117041
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90.747
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      propertyPath: m_Name
+      value: Bin_Biohazard_01
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8845099102533614598}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1724899003332648292}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6160216691413581460}
+  m_SourcePrefab: {fileID: 100100000, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+--- !u!1 &6057728778589874361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bcaa37cdd1a4150458a4c6e1bfa1deca, type: 3}
+  m_PrefabInstance: {fileID: 6399625977522001384}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8845099102533614598
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057728778589874361}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.41, y: 0.6549999, z: 0.49500006}
+  m_Center: {x: -0.0000019073091, y: 0.32749996, z: 0.042499762}
+--- !u!114 &1724899003332648292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057728778589874361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994eb0e7d7ece0c4dbb8be1b6d3291ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Destructible3D
+  obstacleType: 2
+  obstacleRenderer: {fileID: 0}
+  glassMaterial: {fileID: 0}
+  dryWallMaterial: {fileID: 0}
+  woodMaterial: {fileID: 0}
+  steelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  keepOriginalMaterials: 1
+  useHealth: 1
+  glassHealth: 1
+  dryWallHealth: 2
+  woodHealth: 3
+  steelHealth: 15
+  glassXP: 5
+  dryWallXP: 10
+  woodXP: 25
+  steelXP: 50
+  keepSpeed: 0.8
+  bounceBack: 0.5
+  fragmentMass: 0.5
+  burstStrength: 0.6
+  burstLift: 0.3
+  piecesPerUnit: 0.5
+  maxPieces: 60
+  maxPieceSize: 0.75
+  piecesKept: 0.5
+  debrisLifetime: 13
+  insideColor: {r: 0, g: 0, b: 0, a: 1}
+  darkeningPerHit: 15
+--- !u!114 &6160216691413581460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6057728778589874361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705504948acde50479e230c739b5d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
+  voxelizeOnBreak: 1
+  voxelMaterial: {fileID: 2100000, guid: 80c782f3832c8164f880d61a534299c3, type: 2}
+  shapeSource: 0
+  voxelSize: 0.25
+  modelDetail: 16
+  glassHoleRadius: 1.2
+  dryWallHoleRadius: 0.95
+  woodHoleRadius: 0.7
+  steelHoleRadius: 0.45
+  maxHoleRadius: 2.5
+  fullHoleSpeed: 5
+  keepSpeed: 0.8
+  chipSize: 0.4
+  maxChipped: 0.15
+  crumbleBelow: 0.2
+  minChunkVoxels: 8
+  massPerVoxel: 0.05
+  debrisKept: 0.35
+  maxDebrisPerHit: 40
+  burstSpeed: 3
+  debrisLifetime: 13
