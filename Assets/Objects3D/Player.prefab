@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6313184562089350464}
   - component: {fileID: 2364158115407786222}
   - component: {fileID: 391709912734571823}
+  - component: {fileID: 8583262192939768306}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -65,7 +66,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 1.5
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -116,7 +117,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -137,6 +138,26 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &8583262192939768306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846808909803449337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee98f137501d204cbcdf2850c280168, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraWallAvoidance
+  player: {fileID: 5731959301051691231}
+  pivotOffset: {x: 0, y: 0.2, z: 0}
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 51
+  checkRadius: 0.2
+  wallPadding: 0.05
+  returnSpeed: 4
 --- !u!1 &8242145188070536373
 GameObject:
   m_ObjectHideFlags: 0
