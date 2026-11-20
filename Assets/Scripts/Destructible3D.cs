@@ -24,6 +24,10 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private Material woodMaterial;
     [SerializeField] private Material steelMaterial;
 
+    [Header("Model Appearance")]
+    [Tooltip("Keep the model's existing materials while still using the selected obstacle type for health, damage rules and XP.")]
+    [SerializeField] private bool keepOriginalMaterials = false;
+
     [Header("Health")]
     [Tooltip("Off = breaks on the first powered hit, e.g. to showcase destruction. Keep on for the real game.")]
     [SerializeField] private bool useHealth = true;
@@ -93,9 +97,29 @@ public class Destructible3D : MonoBehaviour
     // True from the hit that takes HP to 0, even while voxel rubble is still standing
     public bool IsBroken => isDestroyed;
 
+#if UNITY_EDITOR
+    // Runs in the editor when the component is added (or Reset from its menu):
+    // fills in the four obstacle materials from Assets/Materials/Obstacle Materials
+    private void Reset()
+    {
+        glassMaterial = LoadMaterial("fd3b1b8b27307744aab330af412700a9");   // GlassMaterial
+        dryWallMaterial = LoadMaterial("f454e181f7134d04cb857a12ae9c9d7c"); // DryWallMaterial
+        woodMaterial = LoadMaterial("3e7371b6ae245f045921cdc16131fa87");    // WoodMaterial
+        steelMaterial = LoadMaterial("80c782f3832c8164f880d61a534299c3");   // SteelMaterial
+    }
+
+    // By GUID rather than path, so it still works if the materials are moved or renamed
+    private static Material LoadMaterial(string guid) =>
+        UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(UnityEditor.AssetDatabase.GUIDToAssetPath(guid));
+#endif
+
     private void Awake()
     {
-        obstacleRenderer = GetComponentInChildren<Renderer>();
+
+        if (obstacleRenderer == null)
+        {
+            obstacleRenderer = GetComponentInChildren<Renderer>();
+        }
         voxels = GetComponent<VoxelDestructible>();
         fracture = GetComponent<Fracture>();
         if (fracture != null)
@@ -116,28 +140,37 @@ public class Destructible3D : MonoBehaviour
 
     private void ApplyObstacleType()
     {
+        Material typeMaterial;
+
         switch (obstacleType)
         {
             case ObstacleMaterialType.Wood:
                 health = woodHealth;
-                obstacleRenderer.sharedMaterial = woodMaterial;
+                typeMaterial = woodMaterial;
                 break;
 
             case ObstacleMaterialType.Steel:
                 health = steelHealth;
-                obstacleRenderer.sharedMaterial = steelMaterial;
+                typeMaterial = steelMaterial;
                 break;
 
             case ObstacleMaterialType.DryWall:
                 health = dryWallHealth;
-                obstacleRenderer.sharedMaterial = dryWallMaterial;
+                typeMaterial = dryWallMaterial;
                 break;
 
             default:
                 health = glassHealth;
-                obstacleRenderer.sharedMaterial = glassMaterial;
+                typeMaterial = glassMaterial;
                 break;
         }
+
+
+        if (keepOriginalMaterials == false)
+        {
+            obstacleRenderer.sharedMaterial = typeMaterial;
+        }
+
         damageMaterial = obstacleRenderer.material;
     }
 
@@ -215,7 +248,7 @@ public class Destructible3D : MonoBehaviour
 
     private void GiveXP(BallMaterialController ball)
     {
-        // 升级组件需要与 BallMaterialController 挂在同一个对象上。
+      
         BallLevelSystem levelSystem = ball.GetComponent<BallLevelSystem>();
 
         if (levelSystem == null)

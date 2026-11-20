@@ -57,6 +57,47 @@ public class VoxelGrid
             Mathf.FloorToInt(scaled.z / VoxelSize.z));
     }
 
+    // Makes every empty voxel solid unless it's open to the outside of the grid,
+    // which fills the inside of a shape whose outer surface has been set
+    public void FillEnclosed()
+    {
+        var outside = new bool[solid.Length];
+        var stack = new Stack<Vector3Int>();
+
+        // Start from every empty voxel on the grid's faces
+        for (int z = 0; z < SizeZ; z++)
+        for (int y = 0; y < SizeY; y++)
+        for (int x = 0; x < SizeX; x++)
+        {
+            bool onFace = x == 0 || y == 0 || z == 0 || x == SizeX - 1 || y == SizeY - 1 || z == SizeZ - 1;
+            int i = Index(x, y, z);
+            if (!onFace || solid[i] || outside[i]) continue;
+            outside[i] = true;
+            stack.Push(new Vector3Int(x, y, z));
+        }
+
+        while (stack.Count > 0)
+        {
+            Vector3Int cell = stack.Pop();
+            foreach (Vector3Int step in Neighbours)
+            {
+                Vector3Int next = cell + step;
+                if (!InBounds(next.x, next.y, next.z)) continue;
+                int i = Index(next.x, next.y, next.z);
+                if (solid[i] || outside[i]) continue;
+                outside[i] = true;
+                stack.Push(next);
+            }
+        }
+
+        for (int z = 0; z < SizeZ; z++)
+        for (int y = 0; y < SizeY; y++)
+        for (int x = 0; x < SizeX; x++)
+        {
+            if (!outside[Index(x, y, z)]) Set(x, y, z, true);
+        }
+    }
+
     // Groups the solid voxels into pieces that touch each other face to face
     public List<List<Vector3Int>> FindIslands()
     {

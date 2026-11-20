@@ -32,14 +32,14 @@ public class PlayerController : MonoBehaviour
         t = GetComponent<Transform>();
         if (rb == null) Debug.LogWarning("PlayerController needs a Rigidbody.");
         // Keeps the cursor hidden and locked to the center
-        #if UNITY_WEBGL && !UNITY_EDITOR
-            WebGLInput.stickyCursorLock = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        #else
+        //#if UNITY_WEBGL && !UNITY_EDITOR
+        //    WebGLInput.stickyCursorLock = false;
+        //    Cursor.lockState = CursorLockMode.None;
+        //    Cursor.visible = true;
+        //#else
             Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        #endif
+            //Cursor.visible = false;
+        //#endif
     }
 
     private void Update()
