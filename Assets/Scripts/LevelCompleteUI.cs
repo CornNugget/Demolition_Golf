@@ -34,6 +34,6 @@ public class LevelCompleteUI : MonoBehaviour
     public void LevelSelect()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("StartMenu");
+        SceneManager.LoadScene("LevelsMenu");
     }
 }

@@ -888,7 +888,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 329960064}
   m_OnClick:
     m_PersistentCalls:
@@ -1350,7 +1350,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 477528320}
   m_OnClick:
     m_PersistentCalls:
@@ -1765,7 +1765,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 943609380}
   m_OnClick:
     m_PersistentCalls:
@@ -1914,7 +1914,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1040887276}
   m_OnClick:
     m_PersistentCalls:
@@ -2322,12 +2322,14 @@ MonoBehaviour:
   - {fileID: 329960063}
   - {fileID: 1040887275}
   - {fileID: 943609379}
+  - {fileID: 111682380}
   levelScenes:
   - TutorialScene
   - GoalScene
   - Tutorial2Scene
   - Level1
   - Level0
+  - hospital_scene
 --- !u!114 &1265677336
 MonoBehaviour:
   m_ObjectHideFlags: 0
