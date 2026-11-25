@@ -101,6 +101,25 @@ public class VoxelDestructible : MonoBehaviour
     {
         if (GetComponent<Destructible3D>() == null) UnityEditor.Undo.AddComponent<Destructible3D>(gameObject);
     }
+
+    // Runs in the editor whenever this object is loaded or edited: Model mode has to read the model's
+    // triangles, so turn on Read/Write for any model it uses that doesn't have it, wherever the model lives
+    private void OnValidate()
+    {
+        if (Application.isPlaying || shapeSource != VoxelShapeSource.Model) return;
+
+        foreach (MeshFilter part in GetComponentsInChildren<MeshFilter>(true))
+        {
+            Mesh mesh = part.sharedMesh;
+            if (mesh == null || mesh.isReadable) continue;
+            string path = UnityEditor.AssetDatabase.GetAssetPath(mesh);
+            if (!(UnityEditor.AssetImporter.GetAtPath(path) is UnityEditor.ModelImporter model) || model.isReadable) continue;
+
+            // Reimporting isn't allowed during OnValidate, so do it straight after
+            model.isReadable = true;
+            UnityEditor.EditorApplication.delayCall += model.SaveAndReimport;
+        }
+    }
 #endif
 
     private void Start()
@@ -334,6 +353,8 @@ public class VoxelDestructible : MonoBehaviour
         if (grid == null)
         {
             BuildFromShape();
+            // Couldn't be voxelized (the reason is already in the Console), so leave the object as it is
+            if (grid == null) return;
         }
 
         ObstacleMaterialType type = ObstacleType;
