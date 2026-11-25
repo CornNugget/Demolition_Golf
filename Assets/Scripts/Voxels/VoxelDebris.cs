@@ -43,6 +43,9 @@ public class VoxelDebris : MonoBehaviour
         {
             piece = new Piece { cube = GameObject.CreatePrimitive(PrimitiveType.Cube) };
             piece.cube.name = "Voxel Debris";
+            // Same layer as the objects it breaks off from, so the camera treats it the same way
+            int voxelLayer = LayerMask.NameToLayer("Voxel");
+            if (voxelLayer >= 0) piece.cube.layer = voxelLayer;
             piece.cube.transform.SetParent(transform, false);
             piece.body = piece.cube.AddComponent<Rigidbody>();
             piece.body.mass = 0.05f;

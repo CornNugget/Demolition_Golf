@@ -112,6 +112,13 @@ public class VoxelDestructible : MonoBehaviour
         meshFilter = GetComponent<MeshFilter>();
         material = GetComponent<MeshRenderer>().sharedMaterial;
 
+        // Put the whole object on the Voxel layer, so the camera's Obstacle Layers can include or skip it.
+        // Chunks copy this layer when they break off
+        int voxelLayer = LayerMask.NameToLayer("Voxel");
+        if (voxelLayer >= 0)
+        {
+            foreach (Transform part in GetComponentsInChildren<Transform>(true)) part.gameObject.layer = voxelLayer;
+        }
 
         if (voxelizeOnBreak == false)
         {
