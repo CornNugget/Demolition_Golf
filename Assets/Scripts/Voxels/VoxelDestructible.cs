@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using VoxelSystem;
 
 public enum VoxelShapeSource
@@ -20,7 +19,7 @@ public class VoxelDestructible : MonoBehaviour
     [Tooltip("Keep the original model and its UVs until Destructible3D reports that health has run out. Small chips are skipped before that point.")]
     [SerializeField] private bool voxelizeOnBreak = false;
 
-    [Tooltip("Optional material for the voxel mesh and debris. For atlas-textured models, use a separate wood or solid-color material here.")]
+    [Tooltip("Material for the inside of the object (cut faces) and its debris. On a Model the outside keeps the art's own materials and texture colours. Empty = the object's current material")]
     [SerializeField] private Material voxelMaterial;
 
     [Header("Voxels")]
@@ -86,7 +85,10 @@ public class VoxelDestructible : MonoBehaviour
     // Solid boxes covering the voxels. A MeshCollider would only be the visible surface,
     // and a fast ball could slip inside it and pass through.
     private readonly List<BoxCollider> boxColliders = new List<BoxCollider>();
+    // Inside material, also used for debris
     private Material material;
+    // The voxel mesh's materials: the inside material, then the art's own materials (Model only)
+    private Material[] slotMaterials;
     private int startCount;
     private bool isChunk;
     private ObstacleMaterialType chunkType = ObstacleMaterialType.Wood;
@@ -119,22 +121,25 @@ public class VoxelDestructible : MonoBehaviour
 
     private void BuildFromShape()
     {
- 
-        if (voxelMaterial != null)
-        {
-            material = voxelMaterial;
-            GetComponent<MeshRenderer>().sharedMaterial = voxelMaterial;
-        }
+        // The inside material shows wherever the art's surface has been cut away
+        if (voxelMaterial != null) material = voxelMaterial;
 
+        var artMaterials = new List<Material>();
         if (shapeSource == VoxelShapeSource.Model)
         {
-            if (!FillFromModel()) return;
+            if (!FillFromModel(artMaterials)) return;
+            if (material == null && artMaterials.Count > 0) material = artMaterials[0];
         }
         else
         {
             FillPrimitive();
         }
         startCount = grid.SolidCount;
+
+        // Slot 0 is the inside material, then the art's own materials for the painted surface voxels
+        artMaterials.Insert(0, material);
+        slotMaterials = artMaterials.ToArray();
+        GetComponent<MeshRenderer>().sharedMaterials = slotMaterials;
 
         // The grid now carries the object's size, so the scale goes back to 1
         transform.localScale = Vector3.one;
@@ -173,11 +178,15 @@ public class VoxelDestructible : MonoBehaviour
     // Voxelizes every mesh on this object and its children: marks each voxel the surface passes through
     // (triangle-box test from unity-voxel, Assets/ThirdParty/unity-voxel), fills whatever is enclosed,
     // then hides the original art. Returns false if nothing could be voxelized.
-    private bool FillFromModel()
+    private bool FillFromModel(List<Material> artMaterials)
     {
-        // Put every part of the model into this object's own space, keeping its current scale
+        // Put every part of the model into this object's own space, keeping its current scale.
+        // Each triangle remembers its UVs and which of the art's materials it uses (slot 1 and up; 0 = none)
         Matrix4x4 toLocal = Matrix4x4.Scale(transform.localScale) * transform.worldToLocalMatrix;
-        var parts = new List<CombineInstance>();
+        var vertices = new List<Vector3>();
+        var uvs = new List<Vector2>();
+        var triangles = new List<int>();
+        var triangleSlots = new List<int>();
         foreach (MeshFilter part in GetComponentsInChildren<MeshFilter>())
         {
             Mesh mesh = part.sharedMesh;
@@ -187,23 +196,41 @@ public class VoxelDestructible : MonoBehaviour
                 Debug.LogError($"{name}: can't voxelize '{mesh.name}'. Tick Read/Write Enabled in the model's import settings.", this);
                 continue;
             }
+
+            Matrix4x4 partToLocal = toLocal * part.transform.localToWorldMatrix;
+            int first = vertices.Count;
+            Vector3[] partVertices = mesh.vertices;
+            Vector2[] partUVs = mesh.uv;
+            for (int v = 0; v < partVertices.Length; v++)
+            {
+                vertices.Add(partToLocal.MultiplyPoint3x4(partVertices[v]));
+                uvs.Add(v < partUVs.Length ? partUVs[v] : Vector2.zero);
+            }
+
+            Renderer art = part.GetComponent<Renderer>();
+            Material[] partMaterials = art != null ? art.sharedMaterials : new Material[0];
             for (int sub = 0; sub < mesh.subMeshCount; sub++)
             {
-                parts.Add(new CombineInstance { mesh = mesh, subMeshIndex = sub, transform = toLocal * part.transform.localToWorldMatrix });
+                Material artMaterial = sub < partMaterials.Length ? partMaterials[sub] : null;
+                int slot = 0;
+                if (artMaterial != null)
+                {
+                    if (!artMaterials.Contains(artMaterial)) artMaterials.Add(artMaterial);
+                    slot = artMaterials.IndexOf(artMaterial) + 1;
+                }
+                int[] subTriangles = mesh.GetTriangles(sub);
+                foreach (int index in subTriangles) triangles.Add(first + index);
+                for (int t = 0; t < subTriangles.Length / 3; t++) triangleSlots.Add(slot);
             }
         }
-        if (parts.Count == 0)
+        if (triangles.Count == 0)
         {
             Debug.LogWarning($"{name}: Shape Source is Model, but no readable meshes were found on it or its children.", this);
             return false;
         }
 
-        var combined = new Mesh { indexFormat = IndexFormat.UInt32 };
-        combined.CombineMeshes(parts.ToArray(), true, true);
-        Bounds bounds = combined.bounds;
-        Vector3[] vertices = combined.vertices;
-        int[] triangles = combined.triangles;
-        Destroy(combined);
+        var bounds = new Bounds(vertices[triangles[0]], Vector3.zero);
+        foreach (int index in triangles) bounds.Encapsulate(vertices[index]);
 
         // Cube voxels sized so the longest side gets Model Detail of them, with the grid centred on the model
         Vector3 size = bounds.size;
@@ -215,12 +242,15 @@ public class VoxelDestructible : MonoBehaviour
         grid = new VoxelGrid(nx, ny, nz, Vector3.one * unit, bounds.center - new Vector3(nx, ny, nz) * (unit / 2f));
         sizeScale = longest / TunedSize;
 
-        // Surface: every voxel a triangle passes through, using the unity-voxel triangle-box test
+        // Surface: every voxel a triangle passes through, using the unity-voxel triangle-box test.
+        // Each one is painted with the texture colour of the triangle's closest point, so it keeps the art's look
         var cellBox = new Bounds(Vector3.zero, Vector3.one * unit);
         Vector3Int last = new Vector3Int(nx - 1, ny - 1, nz - 1);
-        for (int i = 0; i < triangles.Length; i += 3)
+        for (int i = 0; i < triangles.Count; i += 3)
         {
-            var tri = new CPUVoxelizer.Triangle(vertices[triangles[i]], vertices[triangles[i + 1]], vertices[triangles[i + 2]], Vector3.forward);
+            int ia = triangles[i], ib = triangles[i + 1], ic = triangles[i + 2];
+            int slot = triangleSlots[i / 3];
+            var tri = new CPUVoxelizer.Triangle(vertices[ia], vertices[ib], vertices[ic], Vector3.forward);
             Vector3Int min = Vector3Int.Min(Vector3Int.Max(grid.LocalToCell(tri.bounds.min), Vector3Int.zero), last);
             Vector3Int max = Vector3Int.Min(Vector3Int.Max(grid.LocalToCell(tri.bounds.max), Vector3Int.zero), last);
             for (int z = min.z; z <= max.z; z++)
@@ -230,7 +260,12 @@ public class VoxelDestructible : MonoBehaviour
                 var cell = new Vector3Int(x, y, z);
                 if (grid.Get(cell)) continue;
                 cellBox.center = grid.LocalCenter(cell);
-                if (CPUVoxelizer.Intersects(tri, cellBox)) grid.Set(cell, true);
+                if (!CPUVoxelizer.Intersects(tri, cellBox)) continue;
+                grid.Set(cell, true);
+                if (slot > 0)
+                {
+                    grid.Paint(cell, slot, UVClosestTo(cellBox.center, vertices[ia], vertices[ib], vertices[ic], uvs[ia], uvs[ib], uvs[ic]));
+                }
             }
         }
         // Inside: whatever the outside can't reach. Works for models made of overlapping or open parts
@@ -252,22 +287,32 @@ public class VoxelDestructible : MonoBehaviour
         {
             if (artCollider.gameObject != gameObject) artCollider.enabled = false;
         }
-
-        // Without a Destructible3D to pick a material, borrow the model's own
-        if (material == null)
-        {
-            foreach (Renderer art in GetComponentsInChildren<Renderer>(true))
-            {
-                if (art != ownRenderer && art.sharedMaterial != null) { material = art.sharedMaterial; break; }
-            }
-            ownRenderer.sharedMaterial = material;
-        }
         return true;
+    }
+
+    // Texture coordinate of the point on triangle abc nearest to p (close enough for picking one colour per voxel)
+    private static Vector2 UVClosestTo(Vector3 p, Vector3 a, Vector3 b, Vector3 c, Vector2 uvA, Vector2 uvB, Vector2 uvC)
+    {
+        Vector3 ab = b - a, ac = c - a, ap = p - a;
+        float abab = Vector3.Dot(ab, ab), abac = Vector3.Dot(ab, ac), acac = Vector3.Dot(ac, ac);
+        float denominator = abab * acac - abac * abac;
+        if (denominator <= 1e-12f) return uvA;
+
+        float apab = Vector3.Dot(ap, ab), apac = Vector3.Dot(ap, ac);
+        float towardB = Mathf.Clamp01((acac * apab - abac * apac) / denominator);
+        float towardC = Mathf.Clamp01((abab * apac - abac * apab) / denominator);
+        float total = towardB + towardC;
+        if (total > 1f)
+        {
+            towardB /= total;
+            towardC /= total;
+        }
+        return uvA + (uvB - uvA) * towardB + (uvC - uvA) * towardC;
     }
 
     private void Rebuild()
     {
-        meshFilter.sharedMesh = VoxelMesher.Build(grid, meshFilter.sharedMesh != null && meshFilter.sharedMesh.name == "Voxels" ? meshFilter.sharedMesh : null);
+        meshFilter.sharedMesh = VoxelMesher.Build(grid, meshFilter.sharedMesh != null && meshFilter.sharedMesh.name == "Voxels" ? meshFilter.sharedMesh : null, slotMaterials.Length);
 
         // Reuse the existing box colliders, add more if needed, and switch off any left over
         List<Bounds> boxes = VoxelMesher.Boxes(grid);
@@ -458,7 +503,12 @@ public class VoxelDestructible : MonoBehaviour
 
         var chunkGrid = new VoxelGrid(max.x - min.x + 1, max.y - min.y + 1, max.z - min.z + 1, grid.VoxelSize,
             grid.Origin + Vector3.Scale(min, grid.VoxelSize));
-        foreach (Vector3Int cell in island) chunkGrid.Set(cell - min, true);
+        foreach (Vector3Int cell in island)
+        {
+            chunkGrid.Set(cell - min, true);
+            int slot = grid.PaintOf(cell, out Vector2 uv);
+            if (slot > 0) chunkGrid.Paint(cell - min, slot, uv);
+        }
 
         var chunk = new GameObject(name + " Chunk");
         chunk.layer = gameObject.layer;
@@ -475,7 +525,8 @@ public class VoxelDestructible : MonoBehaviour
         piece.sizeScale = sizeScale;
         piece.meshFilter = chunk.GetComponent<MeshFilter>();
         piece.material = material;
-        chunk.GetComponent<MeshRenderer>().sharedMaterial = material;
+        piece.slotMaterials = slotMaterials;
+        chunk.GetComponent<MeshRenderer>().sharedMaterials = slotMaterials;
         // Builds the chunk's mesh and its box colliders
         piece.Rebuild();
 
