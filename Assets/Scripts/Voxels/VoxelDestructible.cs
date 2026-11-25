@@ -112,14 +112,6 @@ public class VoxelDestructible : MonoBehaviour
         meshFilter = GetComponent<MeshFilter>();
         material = GetComponent<MeshRenderer>().sharedMaterial;
 
-        // Put the whole object on the Voxel layer, so the camera's Obstacle Layers can include or skip it.
-        // Chunks copy this layer when they break off
-        int voxelLayer = LayerMask.NameToLayer("Voxel");
-        if (voxelLayer >= 0)
-        {
-            foreach (Transform part in GetComponentsInChildren<Transform>(true)) part.gameObject.layer = voxelLayer;
-        }
-
         if (voxelizeOnBreak == false)
         {
             BuildFromShape();
@@ -518,7 +510,10 @@ public class VoxelDestructible : MonoBehaviour
         }
 
         var chunk = new GameObject(name + " Chunk");
-        chunk.layer = gameObject.layer;
+        // Loose chunks go on the Voxel layer, which the camera ignores so they don't keep pushing it around.
+        // Standing objects keep their own layer and block the camera like walls, so it can't get inside a box
+        int voxelLayer = LayerMask.NameToLayer("Voxel");
+        chunk.layer = voxelLayer >= 0 ? voxelLayer : gameObject.layer;
         chunk.transform.SetParent(transform.parent, false);
         chunk.transform.SetPositionAndRotation(transform.position, transform.rotation);
 
