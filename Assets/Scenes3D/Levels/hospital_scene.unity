@@ -399,6 +399,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -1547,6 +1548,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -2495,6 +2497,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -4305,6 +4308,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -4568,6 +4572,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -4761,6 +4766,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -5276,6 +5282,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 287979283779222346, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
+      propertyPath: cooldownUI
+      value: 
+      objectReference: {fileID: 2113610343}
     - target: {fileID: 5731959301051691231, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.25
@@ -5364,6 +5374,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -5698,6 +5709,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -6033,6 +6045,7 @@ MonoBehaviour:
   dryWallHealth: 2
   woodHealth: 3
   steelHealth: 15
+  heavyHitThreshold: 4
   glassXP: 5
   dryWallXP: 10
   woodXP: 25
@@ -6579,6 +6592,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8743847510991042313, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
   m_PrefabInstance: {fileID: 2113610341}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2113610343 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2997067982010835845, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
+  m_PrefabInstance: {fileID: 2113610341}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!4 &2129017602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1353214645317127934, guid: 21407256cc8db4e42be0ac2b5a55e959, type: 3}

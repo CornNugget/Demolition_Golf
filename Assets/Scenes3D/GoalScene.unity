@@ -3860,6 +3860,17 @@ PrefabInstance:
       addedObject: {fileID: 789771240}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
+--- !u!114 &1146341664 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2997067982010835845, guid: 6d51128adb975b74c8569f9bb8706029, type: 3}
+  m_PrefabInstance: {fileID: 1146341663}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1165492200 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1604948414797260641, guid: edb3064c97fc52a4fbefa7f0e5b5233e, type: 3}
@@ -6156,6 +6167,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 287979283779222346, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
+      propertyPath: cooldownUI
+      value: 
+      objectReference: {fileID: 1146341664}
     - target: {fileID: 391709912734571823, guid: 6fc20491823bd1349b99ff594f9aa2d9, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
