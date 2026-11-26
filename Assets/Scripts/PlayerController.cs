@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image cooldownUI;
 
     private float shootScale = 1.0f;
+
+    [SerializeField] private float scaleSpeed = 1.0f;
     private bool scaleUp = false;
 
     public float mouseSensitivityX = 100f;
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        shootScale += 0.005f;
+                        shootScale += scaleSpeed * Time.deltaTime;
                     }
                 }
                 else
@@ -160,7 +162,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        shootScale -= 0.005f;
+                        shootScale -= scaleSpeed * Time.deltaTime;
                     }
                 }
             }
