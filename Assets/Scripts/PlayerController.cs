@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 
     public float shootForce = 5.0f;
 
+    private float shootScale = 1.0f;
+    private bool scaleUp = false;
+
     public float mouseSensitivityX = 100f;
     public float mouseSensitivityY = 100f;
 
@@ -95,26 +98,58 @@ public class PlayerController : MonoBehaviour
         angles.y += xRot;
         t.eulerAngles = angles;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            tester = true;
-        }
-        else
-        {
-            tester = false;
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    tester = true;
+        //}
+        //else
+        //{
+        //    tester = false;
+        //}
 
         // When left click is pressed, switch aiming mode and wait for mouse to be released
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0)) //|| Input.GetKeyDown(KeyCode.Space))
         {
 
             // When pressed in aiming mode, set shoot to true
-            if (aiming)
-            {
-                shoot = true;
-            }
+            //if (aiming)
+            //{
+            //    shoot = true;
+            //}
 
-            aiming = !aiming;
+            //aiming = !aiming;
+            aiming = true;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            shoot = true;
+            aiming = false;
+        }
+
+        if (aiming)
+        {
+            if (scaleUp)
+            {
+                if(shootScale >= 1.0)
+                {
+                    scaleUp = !scaleUp;
+                }
+                else
+                {
+                    shootScale += 0.005f;
+                }
+            }
+            else
+            {
+                if (shootScale <= 0.2)
+                {
+                    scaleUp = !scaleUp;
+                }
+                else
+                {
+                    shootScale -= 0.005f;
+                }
+            }
         }
 
     }
@@ -127,13 +162,13 @@ public class PlayerController : MonoBehaviour
             shoot = !shoot;
             powered = true;
             rb.linearVelocity = Vector3.zero;
-            rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+            rb.AddForce(t.forward * shootForce * shootScale, ForceMode.VelocityChange);
             if (GameAnalytics.Instance != null) GameAnalytics.Instance.ShotTaken();
         }
 
         if (aiming)
         {
-            trajectory.Draw(transform.position, t.forward * shootForce);
+            trajectory.Draw(transform.position, t.forward * shootForce * shootScale);
         }
         else
         {
