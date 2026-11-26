@@ -37,6 +37,10 @@ public class Destructible3D : MonoBehaviour
     [SerializeField] private int steelHealth = 15;
 
     [Header("XP Rewards")]
+    [Header("Feedback")]
+    [Tooltip("Shake the camera when a powered hit doesn't break the object and it needs this many hits or more")]
+    [SerializeField] [Min(1)] private int heavyHitThreshold = 4;
+    private int maxHealth;
 
     [SerializeField]
     [Min(0)]
@@ -164,7 +168,7 @@ public class Destructible3D : MonoBehaviour
                 typeMaterial = glassMaterial;
                 break;
         }
-
+        maxHealth = health;
 
         if (keepOriginalMaterials == false)
         {
@@ -185,8 +189,11 @@ public class Destructible3D : MonoBehaviour
         PlayerController player = ball.GetComponent<PlayerController>();
         if (obstacleType == ObstacleMaterialType.Steel && ball.currentMaterial == BallMaterialType.Regular)
         {
-            // Can't be damaged, but a shot still bounces back off it instead of dropping dead
-            if (player == null || player.powered) BounceBall(ball, collision);
+            if (player == null || player.powered)
+{
+                BounceBall(ball, collision);
+                ShakeCamera();   // can't damage it at all, so give feedback
+}
             return;
         }
         if (player != null)
@@ -209,6 +216,7 @@ public class Destructible3D : MonoBehaviour
             // Voxel objects lose a small chip at the impact point
             if (voxels != null) voxels.Chip(ball, collision);
             BounceBall(ball, collision);
+            if (HitsToBreak(ball) >= heavyHitThreshold) ShakeCamera();
             return;
         }
 
@@ -244,6 +252,17 @@ public class Destructible3D : MonoBehaviour
             currentColor.a);
 
         damageMaterial.color = damagedColor;
+    }
+
+    // How many hits this ball needs to break this object from full health
+    private int HitsToBreak(BallMaterialController ball)
+    {
+        return Mathf.CeilToInt((float)maxHealth / Mathf.Max(1, ball.Damage));
+    }
+
+    private void ShakeCamera()
+    {
+        if (CameraShake.Instance != null) CameraShake.Instance.Shake();
     }
 
     private void GiveXP(BallMaterialController ball)
