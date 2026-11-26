@@ -7,6 +7,7 @@ public class LevelCompleteUI : MonoBehaviour
 {
     [SerializeField] private GameObject completePanel;
     [SerializeField] private TMP_Text finalTimeText;
+    [SerializeField] private GameObject nextLevelButton;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +24,9 @@ public class LevelCompleteUI : MonoBehaviour
         completePanel.SetActive(true);
         finalTimeText.text = "Your Time: " + GameTimer.Format(finalTime);
         Time.timeScale = 0f;
+        // Hide the Next Level button on the last level
+        string next = LevelOrder.GetNext(SceneManager.GetActiveScene().name);
+        if (nextLevelButton != null) nextLevelButton.SetActive(next != null);
     }
     public void Restart()
     {
@@ -35,5 +39,13 @@ public class LevelCompleteUI : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("LevelsMenu");
+    }
+    public void NextLevel()
+    {
+        Time.timeScale = 1f;
+
+        string next = LevelOrder.GetNext(SceneManager.GetActiveScene().name);
+        if (next != null) SceneManager.LoadScene(next);
+        else SceneManager.LoadScene("LevelsMenu");   // last level: back to level select
     }
 }
