@@ -8232,7 +8232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6099955964168581890, guid: e23dc26bb6efc52449f71fea8cfdc200, type: 3}
       propertyPath: section1Text
-      value: Move the mouse and left-click once to aim. Left-click again to shoot.
+      value: Move the mouse and hold left-click to aim. Release left-click to shoot.
       objectReference: {fileID: 0}
     - target: {fileID: 6099955964168581890, guid: e23dc26bb6efc52449f71fea8cfdc200, type: 3}
       propertyPath: section2Text

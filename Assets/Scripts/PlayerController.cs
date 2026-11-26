@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// Moves forward/backward and rotates with WASD/Arrow keys.
@@ -9,6 +10,15 @@ public class PlayerController : MonoBehaviour
 {
 
     public float shootForce = 5.0f;
+
+    public float shootCooldown = 3.0f;
+
+    private float currentCooldown = 0.0f;
+
+    [SerializeField] private Image cooldownUI;
+
+    private float shootScale = 1.0f;
+    private bool scaleUp = false;
 
     public float mouseSensitivityX = 100f;
     public float mouseSensitivityY = 100f;
@@ -24,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool powered = true;
     public Trajectory trajectory;
 
-    public bool tester = false;
+    //public bool tester = false;
 
     private void Start()
     {
@@ -48,7 +58,7 @@ public class PlayerController : MonoBehaviour
         // pause-menu buttons so it cannot also aim or shoot in gameplay.
         if (PauseMenu.isPaused)
         {
-            tester = false;
+            //tester = false;
             return;
         }
 
@@ -95,26 +105,65 @@ public class PlayerController : MonoBehaviour
         angles.y += xRot;
         t.eulerAngles = angles;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            tester = true;
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    tester = true;
+        //}
+        //else
+        //{
+        //    tester = false;
+        //}
+        if (currentCooldown > 0f) {
+            currentCooldown = Mathf.Max(0, currentCooldown - Time.deltaTime);
+            cooldownUI.fillAmount = currentCooldown/shootCooldown;
         }
-        else
-        {
-            tester = false;
-        }
+        else{
+            // When left click is pressed, switch aiming mode and wait for mouse to be released
+            if (Input.GetMouseButtonDown(0)) //|| Input.GetKeyDown(KeyCode.Space))
+            {
 
-        // When left click is pressed, switch aiming mode and wait for mouse to be released
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-        {
+                // When pressed in aiming mode, set shoot to true
+                //if (aiming)
+                //{
+                //    shoot = true;
+                //}
 
-            // When pressed in aiming mode, set shoot to true
-            if (aiming)
+                //aiming = !aiming;
+                aiming = true;
+            }
+            if (Input.GetMouseButtonUp(0) && aiming)
             {
                 shoot = true;
+                aiming = false;
+                currentCooldown = shootCooldown;
+                cooldownUI.fillAmount = 1;
             }
 
-            aiming = !aiming;
+            if (aiming)
+            {
+                if (scaleUp)
+                {
+                    if (shootScale >= 1.0)
+                    {
+                        scaleUp = !scaleUp;
+                    }
+                    else
+                    {
+                        shootScale += 0.005f;
+                    }
+                }
+                else
+                {
+                    if (shootScale <= 0.2)
+                    {
+                        scaleUp = !scaleUp;
+                    }
+                    else
+                    {
+                        shootScale -= 0.005f;
+                    }
+                }
+            }
         }
 
     }
@@ -127,13 +176,13 @@ public class PlayerController : MonoBehaviour
             shoot = !shoot;
             powered = true;
             rb.linearVelocity = Vector3.zero;
-            rb.AddForce(t.forward * shootForce, ForceMode.VelocityChange);
+            rb.AddForce(t.forward * shootForce * shootScale, ForceMode.VelocityChange);
             if (GameAnalytics.Instance != null) GameAnalytics.Instance.ShotTaken();
         }
 
         if (aiming)
         {
-            trajectory.Draw(transform.position, t.forward * shootForce);
+            trajectory.Draw(transform.position, t.forward * shootForce * shootScale);
         }
         else
         {
