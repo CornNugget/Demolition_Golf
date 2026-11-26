@@ -16,6 +16,10 @@ public class VoxelGrid
     public int SolidCount { get; private set; }
 
     private readonly bool[] solid;
+    // Model only: which of the art's materials each surface voxel shows (0 = none, so the inside material)
+    // and the spot on that material's texture it takes its colour from. Null until something is painted
+    private byte[] paint;
+    private Vector2[] paintUV;
 
     public VoxelGrid(int sizeX, int sizeY, int sizeZ, Vector3 voxelSize, Vector3 origin)
     {
@@ -45,6 +49,29 @@ public class VoxelGrid
     }
 
     public void Set(Vector3Int cell, bool value) => Set(cell.x, cell.y, cell.z, value);
+
+    public void Paint(Vector3Int cell, int slot, Vector2 uv)
+    {
+        if (!InBounds(cell.x, cell.y, cell.z)) return;
+        if (paint == null)
+        {
+            paint = new byte[solid.Length];
+            paintUV = new Vector2[solid.Length];
+        }
+        int i = Index(cell.x, cell.y, cell.z);
+        paint[i] = (byte)slot;
+        paintUV[i] = uv;
+    }
+
+    // Returns the material slot the voxel is painted with (0 if none) and where on its texture
+    public int PaintOf(Vector3Int cell, out Vector2 uv)
+    {
+        uv = Vector2.zero;
+        if (paint == null || !InBounds(cell.x, cell.y, cell.z)) return 0;
+        int i = Index(cell.x, cell.y, cell.z);
+        uv = paintUV[i];
+        return paint[i];
+    }
 
     public Vector3 LocalCenter(Vector3Int cell) => Origin + Vector3.Scale(cell + new Vector3(0.5f, 0.5f, 0.5f), VoxelSize);
 

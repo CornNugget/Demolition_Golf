@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VoxelDestructible
   voxelizeOnBreak: 1
   voxelMaterial: {fileID: 2100000, guid: f454e181f7134d04cb857a12ae9c9d7c, type: 2}
-  shapeSource: 0
+  shapeSource: 1
   voxelSize: 0.25
   modelDetail: 16
   glassHoleRadius: 1.2
