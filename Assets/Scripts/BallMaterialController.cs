@@ -28,6 +28,11 @@ public class BallMaterialController : MonoBehaviour
     [SerializeField] private float stoneSpeed = 3.5f;
     [SerializeField] private float diamondSpeed = 2.5f;
 
+    [Header("Cooldown Time")]
+    [SerializeField] private float regularCD = 3f;
+    [SerializeField] private float stoneCD = 2.5f;
+    [SerializeField] private float diamondCD = 2f;
+
     [Header("Jump Force")]
     [SerializeField] private float regularJump = 5f;
     [SerializeField] private float stoneJump = 3.5f;
@@ -163,6 +168,7 @@ public class BallMaterialController : MonoBehaviour
                 rb.mass = stoneMass;
                 //player.speed = stoneSpeed;
                 player.shootForce = stoneJump;
+                player.shootCooldown = stoneCD;
                 break;
 
             case BallMaterialType.Diamond:
@@ -170,6 +176,7 @@ public class BallMaterialController : MonoBehaviour
                 rb.mass = diamondMass;
                 //player.speed = diamondSpeed;
                 player.shootForce = diamondJump;
+                player.shootCooldown = diamondCD;
                 break;
 
             default:
@@ -177,6 +184,7 @@ public class BallMaterialController : MonoBehaviour
                 rb.mass = regularMass;
                 //player.speed = regularSpeed;
                 player.shootForce = regularJump;
+                player.shootCooldown = regularCD;
                 break;
         }
     }
