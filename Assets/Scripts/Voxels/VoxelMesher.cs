@@ -23,12 +23,15 @@ public static class VoxelMesher
 
     private static readonly Vector2[] FaceUVs = { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1), new Vector2(1, 0) };
 
-    public static Mesh Build(VoxelGrid grid, Mesh mesh)
+    // One submesh per material slot. Slot 0 (unpainted voxels) tiles its texture once per face;
+    // a painted voxel's faces all sit on the one spot of its art texture, so they take that colour
+    public static Mesh Build(VoxelGrid grid, Mesh mesh, int slots = 1)
     {
         var vertices = new List<Vector3>();
         var normals = new List<Vector3>();
         var uvs = new List<Vector2>();
-        var triangles = new List<int>();
+        var triangles = new List<int>[slots];
+        for (int s = 0; s < slots; s++) triangles[s] = new List<int>();
 
         for (int z = 0; z < grid.SizeZ; z++)
         for (int y = 0; y < grid.SizeY; y++)
@@ -38,6 +41,9 @@ public static class VoxelMesher
 
             var cell = new Vector3Int(x, y, z);
             Vector3 corner = grid.Origin + Vector3.Scale(cell, grid.VoxelSize);
+            int slot = grid.PaintOf(cell, out Vector2 paintUV);
+            if (slot >= slots) slot = 0;
+            List<int> slotTriangles = triangles[slot];
             for (int face = 0; face < 6; face++)
             {
                 if (grid.Get(cell + FaceDirections[face])) continue;
@@ -47,10 +53,10 @@ public static class VoxelMesher
                 {
                     vertices.Add(corner + Vector3.Scale(FaceCorners[face][i], grid.VoxelSize));
                     normals.Add(FaceDirections[face]);
-                    uvs.Add(FaceUVs[i]);
+                    uvs.Add(slot == 0 ? FaceUVs[i] : paintUV);
                 }
-                triangles.Add(first); triangles.Add(first + 1); triangles.Add(first + 2);
-                triangles.Add(first); triangles.Add(first + 2); triangles.Add(first + 3);
+                slotTriangles.Add(first); slotTriangles.Add(first + 1); slotTriangles.Add(first + 2);
+                slotTriangles.Add(first); slotTriangles.Add(first + 2); slotTriangles.Add(first + 3);
             }
         }
 
@@ -63,7 +69,8 @@ public static class VoxelMesher
         mesh.SetVertices(vertices);
         mesh.SetNormals(normals);
         mesh.SetUVs(0, uvs);
-        mesh.SetTriangles(triangles, 0);
+        mesh.subMeshCount = slots;
+        for (int s = 0; s < slots; s++) mesh.SetTriangles(triangles[s], s);
         mesh.RecalculateBounds();
         return mesh;
     }
